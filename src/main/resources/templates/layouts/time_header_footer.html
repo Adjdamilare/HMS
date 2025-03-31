@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Document</title>
+</head>
+<body>
+
+<header>
+    <p>User: <span th:if="${session != null and session.username != null}" th:text="${session.username}"></span></p>
+    <p>LoginTime: <span th:if="${session != null and session.loginTime != null}" th:text="${session.loginTime}"></span></p>
+    <p>LoginDate <span th:if="${session != null and session.loginDate != null}" th:text="${session.loginDate}"></span></p>
+    <p id="clock"></p>
+</header>
+
+<main layout:fragment="content">
+
+</main>
+
+
+<footer>Created By: Adeosun Oluwadamilare Joshua</footer>
+<script th:src="@{/time_header_footer.js}"></script>
+</body>
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<div th:fragment="newForm(title, entityPath, fields, idValue)">
+    <div class="form-header">
+        <h2 th:text="'Add New ' + ${title}">Add New Entity</h2>
+        <a th:href="@{/{entityPath}/back/new(entityPath=${entityPath})}">Back</a>
+    </div>
+    <form th:action="@{/{entityPath}/save(entityPath=${entityPath})}" method="post" class="new-form">
+        <div th:if="${not #lists.isEmpty(fields)}" class="form-group">
+            <label th:for="${fields[0].name}" th:text="${fields[0].displayName}"></label>
+            <input type="text" th:id="${fields[0].name}" th:name="${fields[0].name}" th:value="${idValue}" readonly class="form-control"/>
+        </div>
+        <div th:each="field, iterStat : ${fields}" th:if="${not iterStat.first}" class="form-group">
+            <label th:for="${field.name}" th:text="${field.displayName}"></label>
+            <input th:type="${field.type}" th:id="${field.name}" th:name="${field.name}" th:required="${field.required}" class="form-control"/>
+        </div>
+        <button type="submit" class="btn btn-primary">Save</button>
+    </form>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,20 @@
+<!-- src/main/resources/templates/doctor/index.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/time_header_footer}">
+<head>
+    <title>Doctor Management</title>
+</head>
+<body>
+
+<!-- Your custom content section -->
+<div layout:fragment="content">
+    <!-- Include the table fragment -->
+    <div th:replace="~{fragments/_tables :: crudTable(title=${title}, items=${items}, columns=${columns}, entityPath=${entityPath}, idPropertyName='doctorId')}"></div>
+
+    <!-- Additional page-specific content can go here -->
+</div>
+
+</body>
+</html>

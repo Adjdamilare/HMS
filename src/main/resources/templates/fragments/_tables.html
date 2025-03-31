@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+
+<!-- Named fragment for dynamic tables -->
+<div th:fragment="crudTable(title, items, columns, entityPath, idPropertyName)">
+    <div class="table-header">
+        <h2 th:text="${title}">Table Title</h2>
+        <div class="table-actions">
+            <a th:href="@{/{entityPath}/back(entityPath=${entityPath})}">Back</a>
+            <a th:href="@{/{entityPath}/new(entityPath=${entityPath})}" >Add New</a>
+            <a th:href="@{/{entityPath}/refresh(entityPath=${entityPath})}">Refresh</a>
+            <form th:action="@{/{entityPath}/search(entityPath=${entityPath})}" method="get">
+                <select name="searchColumn">
+                    <option value="">All Columns</option>
+                    <option th:each="col : ${columns}" th:value="${col.propertyName}" th:text="${col.displayName}"></option>
+                </select>
+                <input type="text" name="q" placeholder="Search...">
+                <button type="submit">Search</button>
+            </form>
+
+        </div>
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <th th:each="col : ${columns}" th:text="${col.displayName}">Column</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="item : ${items}">
+            <td th:each="col : ${columns}" th:text="${item[col.propertyName]}">Value</td>
+            <td>
+                <a th:href="@{/{entityPath}/edit/{id}(entityPath=${entityPath},id=${item[idPropertyName]})}" >
+                    Edit
+                </a>
+                <a th:href="@{/{entityPath}/delete/{id}(entityPath=${entityPath},id=${item[idPropertyName]})}" onclick="return confirm('Are you sure?')">
+                    Delete
+                </a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+</body>
+</html>
