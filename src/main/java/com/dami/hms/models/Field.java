@@ -1,5 +1,10 @@
 package com.dami.hms.models;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class Field {
     private String name;
     private String displayName;
@@ -10,39 +15,6 @@ public class Field {
         this.name = name;
         this.displayName = displayName;
         this.type = type;
-        this.required = required;
-    }
-
-    // Getters and setters
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDisplayName() {
-        return displayName;
-    }
-
-    public void setDisplayName(String displayName) {
-        this.displayName = displayName;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public boolean isRequired() {
-        return required;
-    }
-
-    public void setRequired(boolean required) {
         this.required = required;
     }
 }

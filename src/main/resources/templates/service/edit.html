@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/time_header_footer}">
+<head>
+    <title>Edit Service</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:replace="~{fragments/_editForm :: editForm(title=${title}, fields=${fields}, entityPath=${entityPath}, idValue=${idValue}, item=${item})}"></div>
+</div>
+</body>
+</html>

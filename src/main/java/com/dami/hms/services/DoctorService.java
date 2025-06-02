@@ -3,8 +3,10 @@ package com.dami.hms.services;
 import com.dami.hms.entities.Doctor;
 import com.dami.hms.models.DoctorDto;
 import com.dami.hms.repositories.DoctorRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -46,6 +48,12 @@ public class DoctorService {
     public void deleteDoctor(String id) {
         doctorRepository.deleteById(id);
     }
+
+    @Transactional
+    public void delete(String doctorId){
+        doctorRepository.softDelete(doctorId);
+    }
+
 
     public List<Doctor> searchDoctors(String query) {
         List<Doctor> doctors = new ArrayList<>();

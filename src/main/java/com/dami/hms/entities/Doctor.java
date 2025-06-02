@@ -3,6 +3,8 @@ package com.dami.hms.entities;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.DialectOverride;
+import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
 
@@ -60,4 +62,6 @@ public class Doctor {
     @Column(name = "Doctor_Basic_Sal", precision = 12, scale = 2)
     private BigDecimal doctorBasicSal;
 
+    @Column(name = "status")
+    private Integer status = 0;
 }

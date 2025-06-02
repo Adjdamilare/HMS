@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Global Search</title>
+</head>
+<body>
+<div>
+    <h1>Select Medical Details to View</h1>
+
+    <form id="searchForm" th:action="@{/global/search}" method="post">
+        <!-- Define options directly in the template -->
+        <div>
+            <input type="radio" id="doctorDetails" name="selectedOption" value="doctorDetails">
+            <label for="doctorDetails">Doctor Details</label>
+        </div>
+        <div>
+            <input type="radio" id="doctorScheduleDetails" name="selectedOption" value="doctorScheduleDetails">
+            <label for="doctorScheduleDetails">Doctor Schedule Details</label>
+        </div>
+        <div>
+            <input type="radio" id="roomDetail" name="selectedOption" value="roomDetail">
+            <label for="roomDetail">Room Detail</label>
+        </div>
+        <div>
+            <input type="radio" id="roomType" name="selectedOption" value="roomType">
+            <label for="roomType">Room Type</label>
+        </div>
+        <div>
+            <input type="radio" id="services" name="selectedOption" value="services">
+            <label for="services">Services</label>
+        </div>
+        <div>
+            <input type="radio" id="serviceScheduleDetail" name="selectedOption" value="serviceScheduleDetail">
+            <label for="serviceScheduleDetail">Service Schedule Detail</label>
+        </div>
+        <div>
+            <input type="radio" id="wardDetail" name="selectedOption" value="wardDetail">
+            <label for="wardDetail">Ward Detail</label>
+        </div>
+    </form>
+
+    <script>
+        // Get all radio buttons
+        const radioButtons = document.querySelectorAll('input[type="radio"]');
+        // Get the form
+        const form = document.getElementById('searchForm');
+
+        // Add change event listener to each radio button
+        radioButtons.forEach(radio => {
+            radio.addEventListener('change', function() {
+                if (this.checked) {
+                    form.submit();
+                }
+            });
+        });
+    </script>
+</div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/time_header_footer}" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">New Room Type</title>
+    <!-- Specific CSS for this page could go here if needed, -->
+    <!-- but common CSS like Bootstrap should be in the layout -->
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1 th:text="${title}" class="mb-4">New Service Schedule</h1>
+
+
+        <form th:action="@{/roomType/save}" th:object="${room}" method="post">
+
+            <div class="mb-3">
+                <label for="roomType" class="form-label">RoomType:</label>
+                <input type="text" id="roomType" class="form-control" th:field="*{roomType}"/>
+            </div>
+
+            <div class="mb-3">
+                <label for="roomRates" class="form-label">Room Rate:</label>
+                <input type="number" id="roomRates" class="form-control" th:field="*{roomRates}" required="required" />
+            </div>
+
+            <div class="mb-3">
+                <label for="notes" class="form-label">Notes: </label>
+                <input type="text" id="notes" class="form-control" th:field="*{notes}" required="required" />
+            </div>
+
+            <!-- Submit/Action Buttons -->
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary me-2">Save Schedule</button>
+                <a th:href="@{/roomType}" class="btn btn-secondary me-2">Cancel</a>
+                <a th:href="@{/roomType/back}" class="btn btn-outline-secondary">Back to Menu</a>
+            </div>
+
+        </form>
+    </div><!-- /.container -->
+</div><!-- layout:fragment="content" -->
+
+</body>
+</html>

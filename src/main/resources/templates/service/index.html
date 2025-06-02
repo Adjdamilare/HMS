@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/time_header_footer}">
+<head>
+    <title>Service Management</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div th:replace="~{fragments/_tables :: crudTable(title=${title}, items=${items}, columns=${columns}, entityPath=${entityPath}, idPropertyName='channelServiceId')}"></div>
+</div>
+</body>
+</html>

@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/time_header_footer}" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${title}">New Service Schedule</title>
+    <!-- Specific CSS for this page could go here if needed, -->
+    <!-- but common CSS like Bootstrap should be in the layout -->
+</head>
+<body>
+
+<div layout:fragment="content">
+    <div class="container mt-4">
+        <h1 th:text="${title}" class="mb-4">New Service Schedule</h1>
+
+
+        <form th:action="@{/serviceSchedule/save}" th:object="${schedule}" method="post">
+
+            <!-- Schedule ID (Readonly, pre-filled) -->
+            <div class="mb-3">
+                <label for="serviceScheduleId" class="form-label">Schedule ID:</label>
+                <input type="text" id="serviceScheduleId" class="form-control" th:value="${idValue}" readonly="readonly" />
+            </div>
+
+            <!-- Doctor ID (Required) -->
+            <div class="mb-3">
+                <label for="serviceId" class="form-label">Service ID:</label>
+                <input type="text" id="serviceId" class="form-control" th:field="*{serviceId}" required="required" />
+                <!-- <span th:if="${#fields.hasErrors('doctorId')}" th:errors="*{doctorId}" class="text-danger small"></span> -->
+            </div>
+
+            <!-- Time In (Required) -->
+            <div class="mb-3">
+                <label for="doctorIn" class="form-label">Start:</label>
+                <input type="time" id="doctorIn" class="form-control" th:field="*{serviceStarts}" required="required" />
+                <!-- <span th:if="${#fields.hasErrors('doctorIn')}" th:errors="*{doctorIn}" class="text-danger small"></span> -->
+            </div>
+
+            <!-- Time Out (Required) -->
+            <div class="mb-3">
+                <label for="doctorOut" class="form-label">Ends:</label>
+                <input type="time" id="doctorOut" class="form-control" th:field="*{serviceEnds}" required="required" />
+                <!-- <span th:if="${#fields.hasErrors('doctorOut')}" th:errors="*{doctorOut}" class="text-danger small"></span> -->
+            </div>
+
+            <!-- Availability Days (Checklist) -->
+            <div class="mb-3">
+                <label class="form-label">Availability Days:</label>
+                <div>
+                    <th:block th:each="day : ${allDays}">
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="checkbox" name="selectedDays" th:value="${day}" th:id="${'day_' + day}" />
+                            <label class="form-check-label" th:for="${'day_' + day}" th:text="${day}">Day</label>
+                        </div>
+                    </th:block>
+                </div>
+                <!-- Validation feedback for checkboxes is less common, but could be added here -->
+            </div>
+
+            <!-- Schedule Notes -->
+            <div class="mb-3">
+                <label for="scheduleNotes" class="form-label">Notes:</label>
+                <textarea id="scheduleNotes" class="form-control" th:field="*{scheduleNotes}" rows="4"></textarea>
+            </div>
+
+            <!-- Submit/Action Buttons -->
+            <div class="mt-4">
+                <button type="submit" class="btn btn-primary me-2">Save Schedule</button>
+                <a th:href="@{/serviceSchedule}" class="btn btn-secondary me-2">Cancel</a>
+                <a th:href="@{/serviceSchedule/back}" class="btn btn-outline-secondary">Back to Menu</a>
+            </div>
+
+        </form>
+    </div><!-- /.container -->
+</div><!-- layout:fragment="content" -->
+
+</body>
+</html>

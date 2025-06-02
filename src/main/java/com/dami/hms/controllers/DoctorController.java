@@ -88,7 +88,6 @@ public class DoctorController {
 
     @GetMapping("/search")
     public String searchDoctors(@RequestParam("q") String query, @RequestParam(value = "searchColumn", required = false) String searchColumn, Model model) {
-        System.out.println(searchColumn);
         List<Doctor> doctors;
         if (searchColumn == null || searchColumn.isEmpty()) {
             doctors = doctorService.searchDoctors(query);
@@ -141,7 +140,9 @@ public class DoctorController {
 
     @GetMapping("/delete/{id}")
     public String deleteDoctor(@PathVariable String id) {
-        doctorService.deleteDoctor(id);
+        doctorService.delete(id);
         return "redirect:/doctor";
     }
+
+
 }

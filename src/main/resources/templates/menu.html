@@ -5,11 +5,152 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Document</title>
+    <title>Main Menu</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <style>
+        .menu-card {
+            transition: transform 0.3s;
+            min-width: 250px;
+            flex: 1 1 calc(33.333% - 1rem);
+            max-width: calc(33.333% - 1rem);
+        }
+
+        .menu-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .menu-wrapper {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem;
+            justify-content: center;
+            max-width: 80%;
+            margin: 0 auto;
+        }
+
+        @media (max-width: 992px) {
+            .menu-card {
+                flex: 1 1 calc(50% - 1rem);
+                max-width: calc(50% - 1rem);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .menu-card {
+                flex: 1 1 100%;
+                max-width: 100%;
+            }
+        }
+    </style>
 </head>
 <body>
-    <main layout:fragment="content">
-        <a href="/doctor">Doctor Details</a>
-    </main>
+
+<main layout:fragment="content" class="py-5">
+    <div class="container text-center mb-5">
+        <h1 class="display-4">Main Menu</h1>
+        <p class="lead">Select an option below</p>
+    </div>
+
+    <div class="menu-wrapper">
+        <!-- Logout Card -->
+        <div class="card menu-card shadow-sm border-danger">
+            <div class="card-body text-center">
+                <i class="bi bi-box-arrow-right text-danger" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Logout</h5>
+                <p class="card-text">Sign out of your account</p>
+                <a href="/logout" class="btn btn-outline-danger stretched-link">Logout</a>
+            </div>
+        </div>
+
+        <div><a href="/global">Global</a></div>
+
+        <!-- Doctor Details Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-person-badge text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Doctor Details</h5>
+                <p class="card-text">View and manage doctor information</p>
+                <a href="/doctor" class="btn btn-outline-primary stretched-link">Go to Doctors</a>
+            </div>
+        </div>
+
+        <!-- Service Details Card -->
+        <div class="card menu-card shadow-sm border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-clipboard2-pulse text-success" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Service Details</h5>
+                <p class="card-text">View and manage service information</p>
+                <a href="/service" class="btn btn-outline-success stretched-link">Go to Services</a>
+            </div>
+        </div>
+
+        <!-- Doctor Schedule Card -->
+        <div class="card menu-card shadow-sm border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-calendar-check text-success" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Doctor Schedule</h5>
+                <p class="card-text">View and manage doctor appointments</p>
+                <a href="/doctorSchedule" class="btn btn-outline-success stretched-link">Go to Schedule</a>
+            </div>
+        </div>
+
+        <!-- Service Schedule Card -->
+        <div class="card menu-card shadow-sm border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-calendar-event text-success" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Service Schedule</h5>
+                <p class="card-text">View and manage service appointments</p>
+                <a href="/serviceSchedule" class="btn btn-outline-success stretched-link">Go to Schedule</a>
+            </div>
+        </div>
+
+        <!-- Room Details Card -->
+        <div class="card menu-card shadow-sm border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-house-door text-success" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Room Details</h5>
+                <p class="card-text">View and manage room information</p>
+                <a href="/roomDetails" class="btn btn-outline-success stretched-link">Go to Details</a>
+            </div>
+        </div>
+
+        <!-- Room Type Card -->
+        <div class="card menu-card shadow-sm border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-building text-success" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Room Type</h5>
+                <p class="card-text">View and manage types of rooms available</p>
+                <a href="/roomType" class="btn btn-outline-success stretched-link">Go to Room Types</a>
+            </div>
+        </div>
+
+        <div class="card menu-card shadow-sm border-success">
+            <div class="card-body text-center">
+                <i class="bi bi-hospital text-success" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Ward Details</h5>
+                <p class="card-text">View and manage ward information</p>
+                <a href="/wardDetail" class="btn btn-outline-success stretched-link">Go to Ward Details</a>
+            </div>
+        </div>
+
+        <div>
+            <a href="/"></a>
+        </div>
+
+        <div>
+            <a href=""></a>
+        </div>
+
+    </div>
+
+
+
+
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</main>
 </body>
 </html>

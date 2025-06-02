@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/time_header_footer}" lang="en"> <!-- Adjust layout path if needed -->
+<head>
+    <title th:text="${title}">Edit Doctor Schedule</title>
+    <!-- Add any specific CSS/JS if needed -->
+    <style>
+        /* Basic styling for form elements */
+        .form-group { margin-bottom: 1rem; }
+        label { display: block; margin-bottom: 0.5rem; font-weight: bold; }
+        input[type="text"], input[type="time"], textarea {
+            width: 100%;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Include padding and border in element's total width/height */
+        }
+        input[readonly], input:disabled {
+            background-color: #e9ecef; /* Light grey background for disabled fields */
+            cursor: not-allowed;
+        }
+        textarea { min-height: 80px; }
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 0.5rem;
+        }
+        .btn-primary { background-color: #007bff; color: white; }
+        .btn-secondary { background-color: #6c757d; color: white; }
+        .btn-danger { background-color: #dc3545; color: white; }
+        .alert {
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border: 1px solid transparent;
+            border-radius: 0.25rem;
+        }
+        .alert-success { color: #155724; background-color: #d4edda; border-color: #c3e6cb; }
+        .alert-danger { color: #721c24; background-color: #f8d7da; border-color: #f5c6cb; }
+        .checkbox-group label { display: inline-block; margin-right: 15px; font-weight: normal;}
+        .checkbox-group input[type="checkbox"] { margin-right: 5px; }
+    </style>
+</head>
+<body>
+
+<section layout:fragment="content">
+    <h1 th:text="${title}">Edit Service Schedule</h1>
+
+    <!-- Display Success/Error Messages -->
+    <div th:if="${successMessage}" class="alert alert-success" th:text="${successMessage}"></div>
+    <div th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></div>
+
+    <!-- Use th:object to bind the form to the schedule object -->
+    <!-- Form submits to the /update endpoint -->
+    <form th:action="@{/{entityPath}/update(entityPath=${entityPath})}" th:object="${schedule}" method="post">
+
+        <!-- Hidden field to submit the ID, crucial for update -->
+        <input type="hidden" th:field="*{doctorScheduleId}" />
+
+        <!-- Display Schedule ID (Readonly) -->
+        <div class="form-group">
+            <label for="serviceScheduleIdDisplay">Schedule ID</label>
+            <!-- Use th:value to display the ID, make it readonly and disabled -->
+            <input type="text" id="serviceScheduleIdDisplay" th:value="*{doctorScheduleId}" readonly disabled class="form-control"/>
+        </div>
+
+        <!-- Service ID (Editable) -->
+        <div class="form-group">
+            <label for="serviceId">Doctor ID</label>
+            <!-- Use th:field for binding -->
+            <input type="text" id="serviceId" th:field="*{doctorId}" required class="form-control"/>
+            <!-- Add validation message display if using Spring Validation -->
+            <!-- <span th:if="${#fields.hasErrors('serviceId')}" th:errors="*{serviceId}" class="text-danger"></span> -->
+        </div>
+
+        <!-- Time Starts (Editable) -->
+        <div class="form-group">
+            <label for="serviceStarts">Doctor In</label>
+            <input type="time" id="serviceStarts" th:field="*{doctorIn}" required class="form-control"/>
+            <!-- <span th:if="${#fields.hasErrors('serviceStarts')}" th:errors="*{serviceStarts}" class="text-danger"></span> -->
+        </div>
+
+        <!-- Time Ends (Editable) -->
+        <div class="form-group">
+            <label for="serviceEnds">Doctor Out</label>
+            <input type="time" id="serviceEnds" th:field="*{doctorOut}" required class="form-control"/>
+            <!-- <span th:if="${#fields.hasErrors('serviceEnds')}" th:errors="*{serviceEnds}" class="text-danger"></span> -->
+        </div>
+
+        <!-- Availability Days (Checklist) -->
+        <div class="form-group">
+            <label>Availability Days</label>
+            <div class="checkbox-group">
+                <!-- Iterate through all possible days -->
+                <th:block th:each="day : ${allDays}">
+                    <label>
+                        <!-- Checkbox for each day -->
+                        <!-- name="selectedDays" matches the @RequestParam in the controller -->
+                        <!-- th:value is the value submitted if checked -->
+                        <!-- th:checked checks if the current day is in the selectedDays list from the model -->
+                        <input type="checkbox" name="selectedDays" th:value="${day}"
+                               th:checked="${selectedDays != null && selectedDays.contains(day)}" />
+                        <span th:text="${day}">Day</span>
+                    </label>
+                </th:block>
+            </div>
+        </div>
+
+        <!-- Notes (Editable) -->
+        <div class="form-group">
+            <label for="scheduleNotes">Notes</label>
+            <textarea id="scheduleNotes" th:field="*{scheduleNotes}" class="form-control"></textarea>
+            <!-- <span th:if="${#fields.hasErrors('scheduleNotes')}" th:errors="*{scheduleNotes}" class="text-danger"></span> -->
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="form-group">
+            <button type="submit" class="btn btn-primary">Update Schedule</button>
+            <!-- Link back to the list view -->
+            <a th:href="@{/{entityPath}(entityPath=${entityPath})}" class="btn btn-secondary">Cancel</a>
+        </div>
+
+    </form>
+
+</section>
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package com.dami.hms.controllers;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -23,6 +24,16 @@ public class LoginController {
     @GetMapping("/")
     public String showLoginPage(){return "index";}
 
+    @GetMapping("/logout")
+    public String logout(HttpSession session, HttpServletResponse response){
+        // Invalidate the session
+        session.invalidate();
+        // Set cache-control headers to prevent caching
+        response.setHeader("Cache-Control", "no-cache, no-store, must-revalidate");
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Expires", "0");
+        return "index";
+    }
 
     @PostMapping("/menu")
     public String goToMenu(HttpSession session, @RequestParam String username, @RequestParam String password, Model model){

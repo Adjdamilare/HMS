@@ -2,22 +2,76 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <body>
 
+<!-- Named fragment for new forms - Bootstrap version -->
 <div th:fragment="newForm(title, entityPath, fields, idValue)">
-    <div class="form-header">
-        <h2 th:text="'Add New ' + ${title}">Add New Entity</h2>
-        <a th:href="@{/{entityPath}/back/new(entityPath=${entityPath})}">Back</a>
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <h2 class="h5 mb-0" th:text="'Add New ' + ${title}">Add New Entity</h2>
+            <a class="btn btn-sm btn-light" th:href="@{/{entityPath}/back/new(entityPath=${entityPath})}">
+                <i class="bi bi-arrow-left"></i> Back
+            </a>
+        </div>
+
+        <div class="card-body">
+            <form th:action="@{/{entityPath}/save(entityPath=${entityPath})}" method="post" class="needs-validation" novalidate>
+                <div th:if="${not #lists.isEmpty(fields)}" class="mb-3">
+                    <label th:for="${fields[0].name}" class="form-label" th:text="${fields[0].displayName}"></label>
+                    <input type="text"
+                           th:id="${fields[0].name}"
+                           th:name="${fields[0].name}"
+                           th:value="${idValue}"
+                           readonly
+                           class="form-control-plaintext border-bottom ps-2"/>
+                </div>
+
+                <div th:each="field, iterStat : ${fields}" th:if="${not iterStat.first}" class="mb-3">
+                    <label th:for="${field.name}" class="form-label" th:text="${field.displayName}"></label>
+                    <input th:type="${field.type}"
+                           th:id="${field.name}"
+                           th:name="${field.name}"
+                           th:required="${field.required}"
+                           class="form-control"
+                           th:classappend="${field.type == 'date' ? 'datepicker' : ''}"/>
+                    <div class="invalid-feedback" th:if="${field.required}">
+                        Please provide a valid <span th:text="${field.displayName}"></span>.
+                    </div>
+                </div>
+
+                <div class="d-grid gap-2 d-md-flex justify-content-md-end mt-4">
+                    <button type="submit" class="btn btn-primary me-md-2">
+                        <i class="bi bi-save"></i> Save
+                    </button>
+                    <button type="reset" class="btn btn-outline-secondary">
+                        <i class="bi bi-eraser"></i> Reset
+                    </button>
+                </div>
+            </form>
+        </div>
     </div>
-    <form th:action="@{/{entityPath}/save(entityPath=${entityPath})}" method="post" class="new-form">
-        <div th:if="${not #lists.isEmpty(fields)}" class="form-group">
-            <label th:for="${fields[0].name}" th:text="${fields[0].displayName}"></label>
-            <input type="text" th:id="${fields[0].name}" th:name="${fields[0].name}" th:value="${idValue}" readonly class="form-control"/>
-        </div>
-        <div th:each="field, iterStat : ${fields}" th:if="${not iterStat.first}" class="form-group">
-            <label th:for="${field.name}" th:text="${field.displayName}"></label>
-            <input th:type="${field.type}" th:id="${field.name}" th:name="${field.name}" th:required="${field.required}" class="form-control"/>
-        </div>
-        <button type="submit" class="btn btn-primary">Save</button>
-    </form>
+
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css">
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- Optional: Form validation script -->
+    <script>
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
 </div>
 
 </body>
