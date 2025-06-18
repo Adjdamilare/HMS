@@ -1,0 +1,55 @@
+<!-- D:\IdealProjects\HMS\src\main\resources\templates\medicineCategory\new.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Medicine Category</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Add New Medicine Category</h2>
+
+    <!-- Form to add a new medicine category -->
+    <form th:action="@{/medicine-categories}" method="post" th:object="${category}">
+        <div class="mb-3">
+            <label for="categoryId" class="form-label">Category ID</label>
+            <input type="text"
+                   id="categoryId"
+                   class="form-control"
+                   th:field="*{categoryId}"
+                   readonly
+                   aria-describedby="idHelp">
+            <div id="idHelp" class="form-text">Auto-generated ID, cannot be edited.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="categoryName" class="form-label">Category Name</label>
+            <input type="text"
+                   id="categoryName"
+                   class="form-control"
+                   th:field="*{categoryName}"
+                   placeholder="Enter category name"
+                   required>
+        </div>
+
+
+        <div class="mb-3">
+            <label for="categoryDesc" class="form-label">Category Desc</label>
+            <input type="text"
+                   id="categoryDesc"
+                   class="form-control"
+                   th:field="*{categoryDesc}"
+                   placeholder="Enter category name"
+                   >
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Category</button>
+        <a th:href="@{/medicine-categories}" class="btn btn-secondary">Cancel</a>
+    </form>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

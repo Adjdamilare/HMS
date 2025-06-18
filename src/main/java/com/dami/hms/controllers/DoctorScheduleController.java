@@ -1,10 +1,13 @@
 package com.dami.hms.controllers;
 
+import com.dami.hms.entities.Doctor;
 import com.dami.hms.entities.DoctorScheduleDetail; // Import correct entity
 import com.dami.hms.entities.ServiceScheduleDetail;
 import com.dami.hms.models.Column;
 import com.dami.hms.models.Field;
+import com.dami.hms.repositories.DoctorRepository;
 import com.dami.hms.services.DoctorScheduleService;
+import com.dami.hms.services.DoctorService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +23,11 @@ public class DoctorScheduleController {
     @Autowired
     private DoctorScheduleService doctorScheduleService; // Correct service injected
 
+    @Autowired
+    DoctorRepository doctorRepository;
+
+    @Autowired
+    DoctorService doctorService;
     // Renamed method and improved display names
     private List<Column> getDoctorScheduleColumns() {
         List<Column> columns = new ArrayList<>();
@@ -48,19 +56,25 @@ public class DoctorScheduleController {
     // Renamed method, corrected service call, model attributes, and return view
     @GetMapping
     public String listDoctorSchedules(Model model) {
-        List<DoctorScheduleDetail> schedules = doctorScheduleService.getAllDoctorSchedules(); // Use correct service and entity
-        model.addAttribute("title", "Doctor Schedules"); // Correct title
-        model.addAttribute("items", schedules); // Use 'items' to match ServiceController pattern, value is correct list
-        model.addAttribute("columns", getDoctorScheduleColumns()); // Use correctly named method
-        model.addAttribute("entityPath", "doctorSchedule"); // Correct entity path
-        return "doctorSchedule/index"; // Correct vi
+        List<DoctorScheduleDetail> schedules = doctorScheduleService.getAllDoctorSchedules();
+        for(DoctorScheduleDetail schedule: schedules){
+            schedule.setDoctorId(schedule.getDoctor().getDoctorId());
+        }
+        model.addAttribute("items", schedules);
+        model.addAttribute("title", "Doctor Schedules");
+        model.addAttribute("columns", getDoctorScheduleColumns());
+        model.addAttribute("entityPath", "doctorSchedule");
+        System.out.println(schedules.toString());
+        return "doctorSchedule/index";
     }
+
 
     @GetMapping("/new")
     public String newDoctorSchedule(Model model) {
         List<String> allDays = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"); // All days of the week
         String newScheduleId = doctorScheduleService.generateNextDoctorScheduleId();
         List<Field> fields = new ArrayList<>();
+        model.addAttribute("doctors", doctorService.getAllDoctorsId());
         fields.add(new Field("doctorScheduleId", "Schedule ID", "text", true));
         fields.add(new Field("doctorId", "Doctor ID", "text", true));
         fields.add(new Field("doctorIn", "Time In", "time", true));
@@ -81,26 +95,34 @@ public class DoctorScheduleController {
                                      @RequestParam(value = "selectedDays", required = false) List<String> selectedDays,
                                      RedirectAttributes redirectAttributes) {
 
-        // 1. Process the selected days from the checklist
+        // Process selected days
         if (selectedDays != null && !selectedDays.isEmpty()) {
-            // Join the list of selected days into a comma-separated string
-            String daysString = String.join(",", selectedDays);
-            schedule.setDoctorAvailDate(daysString); // Set the string to the entity field
+            String daysString = String.join(",", selectedDays); // e.g., "Mon,Wed,Fri"
+            schedule.setDoctorAvailDate(daysString);
         } else {
-            schedule.setDoctorAvailDate(""); // Or null, depending on preference/DB constraints
+            schedule.setDoctorAvailDate(""); // or null
         }
-        try {
-            doctorScheduleService.createDoctorSchedule(schedule);
-            // Add success message for feedback after redirect
-            redirectAttributes.addFlashAttribute("successMessage", "Doctor schedule created successfully!");
-        } catch (Exception e) {
-            redirectAttributes.addFlashAttribute("errorMessage", "Error creating doctor schedule: " + e.getMessage());
+        // Fetch the doctor from the repository using the doctorId provided in the form
+        Doctor doctor = doctorRepository.findByDoctorId(schedule.getDoctorId());
+        System.out.println("This is the stuff i want to save" + schedule.toString());
+        if (doctor == null) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Doctor not found");
             return "redirect:/doctorSchedule/new";
         }
 
-        // 4. Redirect to the list view
-        return "redirect:/doctorSchedule";
+        // Set the actual doctor object before saving
+        schedule.setDoctor(doctor);
+
+        try {
+            doctorScheduleService.createDoctorSchedule(schedule);
+            redirectAttributes.addFlashAttribute("successMessage", "Schedule created successfully!");
+            return "redirect:/doctorSchedule";
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("errorMessage", "Error creating schedule: " + e.getMessage());
+            return "redirect:/doctorSchedule/new";
+        }
     }
+
 
     @GetMapping("/back")
     public String back() {
@@ -155,20 +177,23 @@ public class DoctorScheduleController {
     @GetMapping("/edit/{id}")
     public String editDoctorSchedule(@PathVariable String id, Model model, RedirectAttributes redirectAttributes) {
         try {
-            Optional<DoctorScheduleDetail> scheduleOptional = doctorScheduleService.getDoctorScheduleById(id);
-            if (scheduleOptional.isEmpty()) {
+
+            DoctorScheduleDetail schedule = doctorScheduleService.getDoctorScheduleById(id);
+            if (schedule == null) {
                 // Or throw new EntityNotFoundException("Service Schedule not found with ID: " + id);
                 redirectAttributes.addFlashAttribute("errorMessage", "Doctor Schedule not found with ID: " + id);
                 return "redirect:/doctorSchedule";
             }
-
-            DoctorScheduleDetail schedule = scheduleOptional.get();
 
             List<String> allDays = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
             List<String> selectedDays = new ArrayList<>();
             if (schedule.getDoctorAvailDate() != null && !schedule.getDoctorAvailDate().isEmpty()) {
                 selectedDays = Arrays.asList(schedule.getDoctorAvailDate().split(","));
             }
+
+
+            List<String> doctors = doctorService.getAllDoctorsId();
+            model.addAttribute("doctors", doctors);
 
             model.addAttribute("title", "Edit Doctor Schedule");
             model.addAttribute("entityPath", "doctorSchedule");
@@ -177,6 +202,8 @@ public class DoctorScheduleController {
             model.addAttribute("selectedDays", selectedDays); // Pre-selected days
             model.addAttribute("fields", getDoctorScheduleFields()); // Use correct method name
             model.addAttribute("isNew", false); // Flag for edit mode
+
+
             return "doctorSchedule/edit"; // Path to the new edit template
 
         } catch (Exception e) { // Catch potential exceptions from the service layer
@@ -190,7 +217,7 @@ public class DoctorScheduleController {
     public String updateDoctorSchedule(@ModelAttribute("schedule") DoctorScheduleDetail schedule,
                                         @RequestParam(value = "selectedDays", required = false) List<String> selectedDays,
                                         RedirectAttributes redirectAttributes) {
-
+        Doctor doctor = doctorRepository.findByDoctorId(schedule.getDoctorId());
         // Process selected days (same logic as save)
         if (selectedDays != null && !selectedDays.isEmpty()) {
             String daysString = String.join(",", selectedDays);
@@ -198,7 +225,8 @@ public class DoctorScheduleController {
         } else {
             schedule.setDoctorAvailDate(""); // Or null
         }
-
+        // Set the actual doctor object before saving
+        schedule.setDoctor(doctor);
         try {
             doctorScheduleService.updateDoctorSchedule(schedule); // Assumes this method exists in your service
             redirectAttributes.addFlashAttribute("successMessage", "Service schedule updated successfully!");

@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -24,5 +26,9 @@ public class RoomType {
 
     @Column(name = "status")
     private Byte status = 0;
+
+    @OneToMany(mappedBy = "roomType", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<RoomDetail> roomDetails = new ArrayList<>();
+
 
 }

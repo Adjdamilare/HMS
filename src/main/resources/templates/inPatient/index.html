@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Inpatients</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2>Inpatient List</h2>
+
+        <a th:href="@{/inpatients/new}" class="btn btn-primary">Add New Patient</a>
+        <a th:href="@{/inpatients/back}" class="btn btn-secondary">Back to Menu</a>
+    </div>
+
+    <div class="table-responsive">
+        <table class="table table-striped table-hover">
+            <thead class="table-dark">
+            <tr>
+                <th>Patient ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Gender</th>
+                <th>Mobile Phone</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!--/* Conditional checks if inpatient list is empty */-->
+            <tr th:if="${#lists.isEmpty(inpatients)}">
+                <td colspan="7" class="text-center">No inpatients found</td>
+            </tr>
+
+            <!--/* Display inpatient data if available */-->
+            <tr th:each="inpatient : ${inpatients}">
+                <td th:text="${inpatient.patientId}"></td>
+                <td th:text="${inpatient.patientFname}"></td>
+                <td th:text="${inpatient.patientLname}"></td>
+                <td th:text="${inpatient.patientSex}"></td>
+                <td th:text="${inpatient.patientMphone}"></td>
+                <td th:text="${inpatient.status == 0 ? 'Active' : 'Inactive'}"></td>
+                <td>
+                    <a th:href="@{/inpatients/edit/{id}(id=${inpatient.patientId})}" class="btn btn-sm btn-warning me-1">Edit</a>
+                    <a th:href="@{/inpatients/delete/{id}(id=${inpatient.patientId})}" class="btn btn-sm btn-danger me-1">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

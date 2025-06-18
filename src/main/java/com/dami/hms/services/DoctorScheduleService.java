@@ -43,9 +43,10 @@ public class DoctorScheduleService {
         doctorScheduleDetailRepository.save(schedule);
     }
 
-    public Optional<DoctorScheduleDetail> getDoctorScheduleById(String id) {
-        return doctorScheduleDetailRepository.findById(id);
+    public DoctorScheduleDetail getDoctorScheduleById(String id) {
+        return doctorScheduleDetailRepository.findByDoctorScheduleId(id);
     }
+
 
     @Transactional
     public void delete(String id) {

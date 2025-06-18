@@ -59,6 +59,9 @@ public interface DoctorRepository extends JpaRepository<Doctor, String> {
     @Query("SELECT d FROM Doctor d WHERE d.status = 0")
     List<Doctor> findAll();
 
+    @Query("SELECT d.doctorId FROM Doctor d WHERE d.status = 0")
+    List<String> findAllDoctorIds();
+
     @Modifying
     @Query("UPDATE Doctor d SET d.status = 1 WHERE d.doctorId = :doctorId")
     void softDelete(@Param("doctorId") String doctorId);

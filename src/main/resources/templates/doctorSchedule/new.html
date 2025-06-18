@@ -35,11 +35,20 @@
             <!-- Doctor ID (Required) -->
             <div class="mb-3">
                 <label for="doctorId" class="form-label">Doctor ID:</label>
-                <input type="text" id="doctorId" class="form-control" th:field="*{doctorId}" required="required" />
+<!--                <input type="text" id="doctorId" class="form-control" th:field="*{doctorId}" required="required" />-->
                 <!-- <span th:if="${#fields.hasErrors('doctorId')}" th:errors="*{doctorId}" class="text-danger small"></span> -->
 
 <!--                <input type="text" id="doctorId" name="doctorId" class="form-control"  th:field="*{doctorId}" autocomplete="off" placeholder="Type Doctor ID..." />-->
 <!--                <ul id="suggestions" class="list-group" style="position: absolute; z-index: 1000; width: 100%; display: none;"></ul>-->
+
+                <select name="doctorId" id="doctorId" class="form-select">
+                    <option value="">-- Select a doctor --</option>
+                    <option th:each="doctor : ${doctors}"
+                            th:value="${doctor}"
+                            th:text="${doctor}"
+                            th:selected="${doctor}">
+                    </option>
+                </select>
             </div>
 
             <!-- Time In (Required) -->

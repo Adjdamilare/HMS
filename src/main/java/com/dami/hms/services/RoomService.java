@@ -85,6 +85,7 @@ public class RoomService {
     public RoomType getRoomType(String roomType) {
         return roomTypeRepository.findByRoomType(roomType);
     }
+
     public List<RoomType> searchRoomTypeByColumn(String query, String searchColumn) {
         List<RoomType> roomTypes = new ArrayList<>();
         switch (searchColumn) {

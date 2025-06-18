@@ -71,10 +71,17 @@
         <!-- Service ID (Editable) -->
         <div class="form-group">
             <label for="serviceId">Service ID</label>
-            <!-- Use th:field for binding -->
-            <input type="text" id="serviceId" th:field="*{serviceId}" required class="form-control"/>
-            <!-- Add validation message display if using Spring Validation -->
-            <!-- <span th:if="${#fields.hasErrors('serviceId')}" th:errors="*{serviceId}" class="text-danger"></span> -->
+            <div class="form-group">
+                <label for="serviceId">Service</label>
+                <select id="serviceId" th:field="*{serviceId}" required class="form-control">
+                    <option value="">-- Select a Service --</option>
+                    <option th:each="service : ${allServices}"
+                            th:value="${service.channelServiceId}"
+                            th:text="${service.channelService}"
+                            th:selected="${service.channelServiceId == schedule.serviceId}"></option>
+                </select>
+            </div>
+
         </div>
 
         <!-- Time Starts (Editable) -->

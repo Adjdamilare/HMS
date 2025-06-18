@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.DialectOverride;
 import org.hibernate.annotations.Where;
+import java.util.*;
 
 import java.math.BigDecimal;
 
@@ -33,4 +34,8 @@ public class Services {
 
     @Column(name = "status")
     private Integer status = 0;
+
+    @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<ServiceScheduleDetail> schedules = new ArrayList<>();
+
 }

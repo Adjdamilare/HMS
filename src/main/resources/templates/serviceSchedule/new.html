@@ -26,8 +26,16 @@
             <!-- Doctor ID (Required) -->
             <div class="mb-3">
                 <label for="serviceId" class="form-label">Service ID:</label>
-                <input type="text" id="serviceId" class="form-control" th:field="*{serviceId}" required="required" />
-                <!-- <span th:if="${#fields.hasErrors('doctorId')}" th:errors="*{doctorId}" class="text-danger small"></span> -->
+                <div class="mb-3">
+                    <label for="serviceId" class="form-label">Service:</label>
+                    <select id="serviceId" class="form-control" th:field="*{serviceId}" required="required">
+                        <option value="">-- Select a Service --</option>
+                        <option th:each="service : ${allServices}"
+                                th:value="${service.channelServiceId}"
+                                th:text="${service.channelService}"></option>
+                    </select>
+                </div>
+
             </div>
 
             <!-- Time In (Required) -->

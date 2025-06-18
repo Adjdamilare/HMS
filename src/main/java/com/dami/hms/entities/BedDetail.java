@@ -1,7 +1,6 @@
 package com.dami.hms.entities;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -14,9 +13,12 @@ public class BedDetail {
     @Column(name = "bed_id")
     private String bedId;
 
-    @Column(name = "room_Ward")
+    @Column(name = "room_ward")
     private String roomWard;
 
     @Column(name = "bed_description")
     private String bedDescription;
+
+    @Column(name = "status")
+    private Byte status = 0;
 }

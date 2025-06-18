@@ -7,6 +7,8 @@ import org.hibernate.annotations.DialectOverride;
 import org.hibernate.annotations.Where;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @Setter
@@ -64,4 +66,11 @@ public class Doctor {
 
     @Column(name = "status")
     private Integer status = 0;
+
+    // Doctor.java
+
+    @OneToMany(mappedBy = "doctor", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private List<DoctorScheduleDetail> schedules = new ArrayList<>();
+
+
 }

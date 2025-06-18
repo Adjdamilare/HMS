@@ -3,10 +3,12 @@ package com.dami.hms.controllers;
 
 import com.dami.hms.entities.DoctorScheduleDetail;
 import com.dami.hms.entities.ServiceScheduleDetail;
+import com.dami.hms.entities.Services;
 import com.dami.hms.models.Column;
 import com.dami.hms.models.Field;
 import com.dami.hms.services.DoctorScheduleService;
 import com.dami.hms.services.ServiceScheduleService;
+import com.dami.hms.services.ServicesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +26,9 @@ public class ServiceScheduleController {
 
     @Autowired
     private ServiceScheduleService serviceScheduleService;
+
+    @Autowired
+    private ServicesService servicesService;
 
     // Renamed method and improved display names
     private List<Column> getServiceScheduleColumns() {
@@ -62,16 +67,20 @@ public class ServiceScheduleController {
 
     @GetMapping("/new")
     public String newServiceSchedule(Model model) {
-        List<String> allDays = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"); // All days of the week
+        List<String> allDays = Arrays.asList("Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun");
         String newScheduleId = serviceScheduleService.generateNextServiceScheduleId();
+        List<Services> allServices = servicesService.getAllServices(); // Get services
+
         model.addAttribute("title", "New Service Schedule");
         model.addAttribute("entityPath", "serviceSchedule");
-        model.addAttribute("schedule", new ServiceScheduleDetail()); // Add an empty schedule object
+        model.addAttribute("schedule", new ServiceScheduleDetail());
         model.addAttribute("allDays", allDays);
-        model.addAttribute("fields",getServiceScheduleFields());
+        model.addAttribute("fields", getServiceScheduleFields());
         model.addAttribute("idValue", newScheduleId);
+        model.addAttribute("allServices", allServices); // Pass services
         return "serviceSchedule/new";
     }
+
 
     @PostMapping("/save")
     public String saveServiceSchedule(@ModelAttribute("schedule") ServiceScheduleDetail schedule,
@@ -150,14 +159,12 @@ public class ServiceScheduleController {
     }
 
 
-    // --- EDIT Functionality ---
-
+    // --- EDIT Functionality ---// for editing the service Schedule detail
     @GetMapping("/edit/{id}")
     public String editServiceSchedule(@PathVariable String id, Model model, RedirectAttributes redirectAttributes) {
         try {
-            ServiceScheduleDetail schedule = serviceScheduleService.getServiceSchedule(id); // Assumes this method exists in your service
+            ServiceScheduleDetail schedule = serviceScheduleService.getServiceSchedule(id);
             if (schedule == null) {
-                // Or throw new EntityNotFoundException("Service Schedule not found with ID: " + id);
                 redirectAttributes.addFlashAttribute("errorMessage", "Service Schedule not found with ID: " + id);
                 return "redirect:/serviceSchedule";
             }
@@ -168,20 +175,25 @@ public class ServiceScheduleController {
                 selectedDays = Arrays.asList(schedule.getServiceAvailDate().split(","));
             }
 
+            List<Services> allServices = servicesService.getAllServices(); // Get services
+
             model.addAttribute("title", "Edit Service Schedule");
             model.addAttribute("entityPath", "serviceSchedule");
-            model.addAttribute("schedule", schedule); // The existing schedule object
+            model.addAttribute("schedule", schedule);
             model.addAttribute("allDays", allDays);
-            model.addAttribute("selectedDays", selectedDays); // Pre-selected days
-            model.addAttribute("fields", getServiceScheduleFields()); // Use correct method name
-            model.addAttribute("isNew", false); // Flag for edit mode
-            return "serviceSchedule/edit"; // Path to the new edit template
+            model.addAttribute("selectedDays", selectedDays);
+            model.addAttribute("fields", getServiceScheduleFields());
+            model.addAttribute("isNew", false);
+            model.addAttribute("allServices", allServices); // Pass services
+            return "serviceSchedule/edit";
 
-        } catch (Exception e) { // Catch potential exceptions from the service layer
+        } catch (Exception e) {
             redirectAttributes.addFlashAttribute("errorMessage", "Error loading schedule for edit: " + e.getMessage());
             return "redirect:/serviceSchedule";
         }
     }
+
+
 
     @PostMapping("/update")
     public String updateServiceSchedule(@ModelAttribute("schedule") ServiceScheduleDetail schedule,

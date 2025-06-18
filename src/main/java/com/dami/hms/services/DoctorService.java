@@ -32,6 +32,10 @@ public class DoctorService {
     }
 
 
+    public List<String> getAllDoctorsId() {
+        return doctorRepository.findAllDoctorIds();
+    }
+
     //M
     public void saveDoctor(Doctor doctor){
         doctorRepository.save(doctor);
@@ -124,5 +128,9 @@ public class DoctorService {
                 break;
         }
         return doctors.stream().distinct().toList();
+    }
+
+    public Doctor getDoctor(String doctorId) {
+        return doctorRepository.findById(doctorId).orElse(null);
     }
 }

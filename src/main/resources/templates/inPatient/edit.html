@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Inpatient</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Edit Inpatient Information</h2>
+
+    <form th:action="@{/inpatients}" th:object="${inpatient}" method="post">
+        <div class="mb-3">
+            <label for="patientId" class="form-label">Patient ID</label>
+            <input type="text" class="form-control" id="patientId" th:field="*{patientId}" readonly>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientFname" class="form-label">First Name</label>
+            <input type="text" class="form-control" id="patientFname" th:field="*{patientFname}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientLname" class="form-label">Last Name</label>
+            <input type="text" class="form-control" id="patientLname" th:field="*{patientLname}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientSex" class="form-label">Gender</label>
+            <select class="form-select" id="patientSex" th:field="*{patientSex}" required>
+                <option value="">Select Gender</option>
+                <option value="Male">Male</option>
+                <option value="Female">Female</option>
+                <option value="Other">Other</option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientDob" class="form-label">Date of Birth</label>
+            <input type="date" class="form-control" id="patientDob" th:field="*{patientDob}">
+        </div>
+
+        <div class="mb-3">
+            <label for="patientAddress" class="form-label">Address</label>
+            <textarea class="form-control" id="patientAddress" th:field="*{patientAddress}" rows="3" required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientMphone" class="form-label">Mobile Phone</label>
+            <input type="tel" class="form-control" id="patientMphone" th:field="*{patientMphone}" required>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientHphone" class="form-label">Home Phone</label>
+            <input type="tel" class="form-control" id="patientHphone" th:field="*{patientHphone}">
+        </div>
+
+        <div class="mb-3">
+            <label for="patientNid" class="form-label">National ID</label>
+            <input type="text" class="form-control" id="patientNid" th:field="*{patientNid}">
+        </div>
+
+        <div class="mb-3">
+            <label for="patientBloodGroup" class="form-label">Blood Group</label>
+            <input type="text" class="form-control" id="patientBloodGroup" th:field="*{patientBloodGroup}">
+        </div>
+
+        <div class="mb-3">
+            <label for="patientNotes" class="form-label">Notes</label>
+            <textarea class="form-control" id="patientNotes" th:field="*{patientNotes}" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Update</button>
+        <a th:href="@{/inpatients}" class="btn btn-secondary">Cancel</a>
+
+
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

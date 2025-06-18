@@ -39,6 +39,8 @@ public class WardController {
         return fields;
     }
 
+    ///  warddetailsfields
+
     @GetMapping
     public String listWardDetails(Model model) {
         List<WardDetail> wardDetails = wardDetailService.getWarmDetails();

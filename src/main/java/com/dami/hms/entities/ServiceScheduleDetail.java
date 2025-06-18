@@ -1,9 +1,6 @@
 package com.dami.hms.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.ColumnDefault;
@@ -37,6 +34,11 @@ public class ServiceScheduleDetail {
     @ColumnDefault("0")
     @Column(name = "Status")
     private Integer status = 0;
+
+    // Add this field for the relationship
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "Service_ID", insertable = false, updatable = false)
+    private Services service;
 }
 
 

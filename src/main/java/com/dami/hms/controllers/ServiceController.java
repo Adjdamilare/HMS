@@ -57,12 +57,15 @@ public class ServiceController {
     @GetMapping("/new")
     public String newService(Model model) {
         String serviceId = servicesService.generateNextServiceId();
+        List<Services> allServices = servicesService.getAllServices(); // Fetch all active services
         model.addAttribute("title", "Service");
         model.addAttribute("entityPath", "service");
         model.addAttribute("fields", getServiceFields());
         model.addAttribute("idValue", serviceId);
+        model.addAttribute("allServices", allServices); // Pass list of services
         return "service/new";
     }
+
 
     @GetMapping("/search")
     public String searchServices(@RequestParam("q") String query, @RequestParam(value = "searchColumn", required = false) String searchColumn, Model model) {
@@ -107,14 +110,17 @@ public class ServiceController {
     @GetMapping("/edit/{id}")
     public String editService(@PathVariable String id, Model model) {
         Services service = servicesService.getServiceById(id);
+        List<Services> allServices = servicesService.getAllServices();
         List<Field> fields = getServiceFields();
         model.addAttribute("title", "Service");
         model.addAttribute("entityPath", "service");
         model.addAttribute("fields", fields);
         model.addAttribute("idValue", id);
         model.addAttribute("item", service);
+        model.addAttribute("allServices", allServices); // Pass list of services
         return "service/edit";
     }
+
 
     @GetMapping("/delete/{id}")
     public String deleteService(@PathVariable String id) {

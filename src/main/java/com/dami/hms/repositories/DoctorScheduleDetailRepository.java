@@ -8,11 +8,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface DoctorScheduleDetailRepository extends JpaRepository<DoctorScheduleDetail, String> {
-    @Query("SELECT d FROM DoctorScheduleDetail d WHERE d.status = 0")
+    @Query("SELECT d FROM DoctorScheduleDetail d WHERE d.status = 0 AND d.doctor.status = 0")
     List<DoctorScheduleDetail> findAllActive();
+
 
     @Modifying
     @Query("UPDATE DoctorScheduleDetail d SET d.status = 1 WHERE d.doctorScheduleId = :doctorScheduleId")
@@ -24,9 +26,6 @@ public interface DoctorScheduleDetailRepository extends JpaRepository<DoctorSche
 
     @Query("SELECT d FROM DoctorScheduleDetail d WHERE UPPER(d.doctorScheduleId) LIKE UPPER(CONCAT('%', :doctorScheduleId, '%')) AND d.status = 0")
     List<DoctorScheduleDetail> findByDoctorScheduleIdContainingIgnoreCase(String doctorScheduleId);
-
-    @Query("SELECT d FROM DoctorScheduleDetail d WHERE UPPER(d.doctorId) LIKE UPPER(CONCAT('%', :doctorId, '%')) AND d.status = 0")
-    List<DoctorScheduleDetail> findByDoctorIdContainingIgnoreCase(String doctorScheduleId);
 
 //    @Query("SELECT d FROM DoctorScheduleDetail d WHERE UPPER(d.doctorIn) LIKE UPPER(CONCAT('%', :doctorIn, '%')) AND d.status = 0")
 //    List<DoctorScheduleDetail> findByDoctorInContainingIgnoreCase(String doctorIn);
@@ -40,6 +39,14 @@ public interface DoctorScheduleDetailRepository extends JpaRepository<DoctorSche
     @Query("SELECT d FROM DoctorScheduleDetail d WHERE UPPER(d.scheduleNotes) LIKE UPPER(CONCAT('%', :notes, '%')) AND d.status = 0")
     List<DoctorScheduleDetail> findByScheduleNotesContainingIgnoreCase(String notes);
 
-    @Query("SELECT d FROM DoctorScheduleDetail d WHERE UPPER(d.doctorId) = :doctorId AND d.status = 0")
-    DoctorScheduleDetail findByDoctorScheduleId(String doctorId);
+//    @Query("SELECT d FROM DoctorScheduleDetail d WHERE d.doctorScheduleId = :id AND d.status = 0")
+//    Optional<DoctorScheduleDetail> findByDoctorScheduleId(@Param("id") String id);
+
+    @Query("SELECT d FROM DoctorScheduleDetail d WHERE d.doctorScheduleId = :id AND d.status = 0")
+    DoctorScheduleDetail findByDoctorScheduleId(@Param("id") String id);
+
+    @Query("SELECT d FROM DoctorScheduleDetail d WHERE UPPER(d.doctor.doctorId) LIKE UPPER(CONCAT('%', :query, '%')) AND d.status = 0")
+    List<DoctorScheduleDetail> findByDoctorIdContainingIgnoreCase(@Param("query") String query);
+
+
 }
