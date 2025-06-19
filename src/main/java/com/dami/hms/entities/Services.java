@@ -35,6 +35,23 @@ public class Services {
     @Column(name = "status")
     private Integer status = 0;
 
+    public String getServiceId() {
+        return channelServiceId;
+    }
+
+    public void setServiceId(String serviceId) {
+        this.channelServiceId = channelServiceId;
+    }
+
+    public String getChannelService() {
+        return channelService;
+    }
+
+    public void setChannelService(String channelService) {
+        this.channelService = channelService;
+    }
+
+
     @OneToMany(mappedBy = "service", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ServiceScheduleDetail> schedules = new ArrayList<>();
 

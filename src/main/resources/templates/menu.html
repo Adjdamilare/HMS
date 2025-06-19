@@ -65,13 +65,81 @@
             </div>
         </div>
 
-        <div><a href="/global">Global</a></div>
 
-        <div><a th:href="@{/medicine-details}">Medicine</a></div>
-        <div><a href="/medicine-categories">Medicine Categories</a></div>
-        <div><a href="/outpatients">Outpatients</a></div>
-        <div><a href="/inpatients">Inpatients</a></div>
-        <div><a th:href="@{/bedDetails/index}">Bed Details</a></div>
+        <div class="card menu-card shadow-sm border-primary">
+            <a th:href="@{/guardians}" class="card menu-card shadow-sm border-primary">Guardians</a>
+        </div>
+<!--        <div><a href="/global">Global</a></div>-->
+        <!-- Service Appointment Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-calendar-check text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Service Appointment</h5>
+                <p class="card-text">View and manage service appointments</p>
+                <a th:href="@{/service-appointments}" class="btn btn-outline-primary stretched-link">Go to Service Appointments</a>
+            </div>
+        </div>
+
+        <!-- Doctor Appointment Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-clipboard2-pulse text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Doctor Appointment</h5>
+                <p class="card-text">View and manage doctor appointments</p>
+                <a th:href="@{/doctor-appointments}" class="btn btn-outline-primary stretched-link">Go to Doctor Appointments</a>
+            </div>
+        </div>
+
+        <!-- Medicine Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-capsule text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Medicine</h5>
+                <p class="card-text">View and manage medicine details</p>
+                <a th:href="@{/medicine-details}" class="btn btn-outline-primary stretched-link">Go to Medicine</a>
+            </div>
+        </div>
+
+        <!-- Medicine Categories Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-tags text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Medicine Categories</h5>
+                <p class="card-text">View and manage medicine categories</p>
+                <a href="/medicine-categories" class="btn btn-outline-primary stretched-link">Go to Categories</a>
+            </div>
+        </div>
+
+        <!-- Outpatients Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-person text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Outpatients</h5>
+                <p class="card-text">View and manage outpatient records</p>
+                <a href="/outpatients" class="btn btn-outline-primary stretched-link">Go to Outpatients</a>
+            </div>
+        </div>
+
+        <!-- Inpatients Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-hospital text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Inpatients</h5>
+                <p class="card-text">View and manage inpatient records</p>
+                <a href="/inpatients" class="btn btn-outline-primary stretched-link">Go to Inpatients</a>
+            </div>
+        </div>
+
+        <!-- Bed Details Card -->
+        <div class="card menu-card shadow-sm border-primary">
+            <div class="card-body text-center">
+                <i class="bi bi-bed text-primary" style="font-size: 2.5rem;"></i>
+                <h5 class="card-title mt-3">Bed Details</h5>
+                <p class="card-text">View and manage bed information</p>
+                <a th:href="@{/bedDetails/index}" class="btn btn-outline-primary stretched-link">Go to Bed Details</a>
+            </div>
+        </div>
+
         <!-- Doctor Details Card -->
         <div class="card menu-card shadow-sm border-primary">
             <div class="card-body text-center">

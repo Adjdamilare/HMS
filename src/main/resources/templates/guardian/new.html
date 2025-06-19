@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Guardian</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Add New Guardian</h2>
+
+    <!-- Form to add a new guardian -->
+    <form th:action="@{/guardians}" method="post" th:object="${guardian}">
+        <div class="mb-3">
+            <label for="guardianId" class="form-label">Guardian ID</label>
+            <input type="text"
+                   id="guardianId"
+                   class="form-control"
+                   th:field="*{guardianId}"
+                   readonly
+                   aria-describedby="idHelp">
+            <div id="idHelp" class="form-text">Auto-generated ID, cannot be edited.</div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="guardianFname" class="form-label">First Name</label>
+                <input type="text"
+                       id="guardianFname"
+                       class="form-control"
+                       th:field="*{guardianFname}"
+                       placeholder="Enter first name"
+                       required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="guardianLname" class="form-label">Last Name</label>
+                <input type="text"
+                       id="guardianLname"
+                       class="form-control"
+                       th:field="*{guardianLname}"
+                       placeholder="Enter last name"
+                       required>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="guardianNic" class="form-label">NIC</label>
+                <input type="text"
+                       id="guardianNic"
+                       class="form-control"
+                       th:field="*{guardianNic}"
+                       placeholder="Enter NIC"
+                       required>
+            </div>
+
+            <div class="col-md-6 mb-3">
+                <label for="guardianPhone" class="form-label">Phone</label>
+                <input type="tel"
+                       id="guardianPhone"
+                       class="form-control"
+                       th:field="*{guardianPhone}"
+                       placeholder="Enter phone number"
+                       required>
+            </div>
+        </div>
+
+        <div class="mb-3">
+            <label for="guardianAddress" class="form-label">Address</label>
+            <textarea id="guardianAddress"
+                      class="form-control"
+                      th:field="*{guardianAddress}"
+                      rows="3"
+                      placeholder="Enter address"
+                      required></textarea>
+        </div>
+
+        <div class="mb-3">
+            <label for="guardianOccupation" class="form-label">Occupation</label>
+            <input type="text"
+                   id="guardianOccupation"
+                   class="form-control"
+                   th:field="*{guardianOccupation}"
+                   placeholder="Enter occupation"
+                   required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Guardian</button>
+        <a th:href="@{/guardians}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
