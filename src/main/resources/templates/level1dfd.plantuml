@@ -1,0 +1,67 @@
+@startuml
+skinparam linetype ortho
+skinparam rectangle {
+    borderColor black
+    backgroundColor white
+}
+
+actor Admin
+actor Doctor
+actor Patient
+actor Guardian
+
+rectangle "Hospital Management System" as HMS {
+
+    [Login Process] as LoginProcess
+    [Manage Doctors] as ManageDoctors
+    [Manage Inpatients] as ManageInpatients
+    [Manage Guardians] as ManageGuardians
+    [Manage Admissions] as ManageAdmissions
+    [Manage Beds] as ManageBeds
+    [Manage Doctor Schedules] as ManageDoctorSchedules
+    [Manage Appointments] as ManageAppointments
+
+    LoginProcess -down-> ManageDoctors : Authenticated Access
+    LoginProcess -down-> ManageInpatients : Authenticated Access
+    LoginProcess -down-> ManageGuardians : Authenticated Access
+    LoginProcess -down-> ManageAdmissions : Authenticated Access
+    LoginProcess -down-> ManageBeds : Authenticated Access
+    LoginProcess -down-> ManageDoctorSchedules : Authenticated Access
+    LoginProcess -down-> ManageAppointments : Authenticated Access
+
+    Admin --> LoginProcess : Username & Password
+    Admin --> ManageDoctors : CRUD Operations
+    Admin --> ManageInpatients : Register/Update Patients
+    Admin --> ManageGuardians : Add/Edit Guardian Info
+    Admin --> ManageAdmissions : Create Admission Records
+    Admin --> ManageBeds : Update Bed Status
+    Admin --> ManageDoctorSchedules : Schedule Management
+    Admin --> ManageAppointments : Manage Appointments
+
+    Doctor --> ManageDoctorSchedules : Set Availability
+    Doctor --> ManageAppointments : View Assigned Appointments
+    Doctor --> ManageAdmissions : Review/Treat Patients
+
+    Patient --> ManageInpatients : Provide Personal Info
+    Patient --> ManageAdmissions : Request Admission
+    Patient --> ManageAppointments : Book Appointment
+
+    Guardian --> ManageGuardians : Provide Info
+    Guardian --> ManageInpatients : Support Info
+
+    HMS .> [Database] : Store/Retrieve Data
+    [Database] <.. HMS
+}
+
+note right of [Database]
+  Tables:
+  - doctor_details
+  - inpatient_details
+  - guardian_details
+  - admission_details
+  - bed_details
+  - doctor_schedule_details
+  - doctor_appointment
+end note
+
+@enduml

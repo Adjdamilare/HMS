@@ -1,0 +1,57 @@
+@startuml
+skinparam linetype ortho
+skinparam rectangle {
+    borderColor black
+    backgroundColor white
+}
+
+actor Patient
+actor Guardian
+actor Doctor
+actor Admin
+
+rectangle "Hospital Management System" as HMS {
+    [Login] as Login
+    [Manage Doctors] as ManageDoctors
+    [Manage Inpatients] as ManageInpatients
+    [Manage Guardians] as ManageGuardians
+    [Manage Admissions] as ManageAdmissions
+    [Manage Beds] as ManageBeds
+    [Manage Doctor Schedules] as ManageDoctorSchedules
+    [Manage Appointments] as ManageAppointments
+}
+
+Patient --> ManageInpatients : Register/Update Info
+Patient --> ManageAdmissions : Request Admission
+Patient --> ManageAppointments : Book Appointment
+
+Guardian --> ManageGuardians : Provide Guardian Info
+Guardian --> ManageInpatients : Support Patient
+
+Doctor --> ManageDoctorSchedules : Set Availability
+Doctor --> ManageAppointments : View Appointments
+Doctor --> ManageAdmissions : Treat Patients
+
+Admin --> Login : Authenticate
+Admin --> ManageDoctors : Add/Edit/Delete Doctors
+Admin --> ManageBeds : Manage Bed Details
+Admin --> ManageInpatients : Handle Admissions
+Admin --> ManageGuardians : Link Guardians
+Admin --> ManageAppointments : Schedule Services
+Admin --> ManageDoctorSchedules : Assign Schedules
+
+HMS .> [Database] : Read/Write Data
+[Database] <.. HMS
+
+note right of [Database]
+  Includes:
+  - doctor_details
+  - inpatient_details
+  - guardian_details
+  - admission_details
+  - bed_details
+  - doctor_schedule_details
+  - doctor_appointment
+end note
+
+@enduml

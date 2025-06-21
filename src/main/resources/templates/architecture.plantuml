@@ -1,0 +1,142 @@
+@startuml
+skinparam linetype ortho
+skinparam componentStyle rectangle
+
+package "User Interface Layer" {
+  [Thymeleaf HTML Templates] as UI
+}
+
+package "Controller Layer" {
+  [LoginController] as LoginController
+  [DoctorController] as DoctorController
+  [AdmissionController] as AdmissionController
+  [BedDetailController] as BedDetailController
+  [GuardianController] as GuardianController
+  [InpatientController] as InpatientController
+  [DoctorScheduleController] as DoctorScheduleController
+  [DoctorAppointmentController] as DoctorAppointmentController
+}
+
+package "Service Layer" {
+  [DoctorService] as DoctorService
+  [AdmissionService] as AdmissionService
+  [BedDetailsService] as BedDetailsService
+  [GuardianService] as GuardianService
+  [InpatientService] as InpatientService
+  [DoctorScheduleService] as DoctorScheduleService
+  [DoctorAppointmentService] as DoctorAppointmentService
+}
+
+package "Repository Layer" {
+  [DoctorRepository] as DoctorRepository
+  [AdmissionRepository] as AdmissionRepository
+  [BedDetailsRepository] as BedDetailsRepository
+  [GuardianRepositorty] as GuardianRepositorty
+  [InpatientRepository] as InpatientRepository
+  [DoctorScheduleDetailRepository] as DoctorScheduleDetailRepository
+  [DoctorAppointmentRepository] as DoctorAppointmentRepository
+}
+
+package "Entity / Model Layer" {
+  [Doctor] as Doctor
+  [AdmissionDetail] as AdmissionDetail
+  [BedDetail] as BedDetail
+  [GuardianDetail] as GuardianDetail
+  [Inpatient] as Inpatient
+  [DoctorScheduleDetail] as DoctorScheduleDetail
+  [DoctorAppointment] as DoctorAppointment
+  [DoctorDto] as DoctorDto
+  [Column] as Column
+  [Field] as Field
+}
+
+package "Database Layer" {
+  [PostgreSQL / MySQL] as DB
+}
+
+package "External Actors" {
+  [Admin] as Admin
+  [Doctor] as ExternalDoctor
+  [Patient] as Patient
+  [Guardian] as ExternalGuardian
+}
+
+' Relationships
+
+Admin --> LoginController : Authenticates
+ExternalDoctor --> DoctorScheduleController : Sets Availability
+ExternalDoctor --> DoctorAppointmentController : Views Appointments
+Patient --> InpatientController : Registers
+ExternalGuardian --> GuardianController : Provides Info
+
+UI <--> LoginController
+UI <--> DoctorController
+UI <--> AdmissionController
+UI <--> BedDetailController
+UI <--> GuardianController
+UI <--> InpatientController
+UI <--> DoctorScheduleController
+UI <--> DoctorAppointmentController
+
+LoginController --> DoctorController : Redirects after login
+LoginController --> BedDetailController
+LoginController --> AdmissionController
+LoginController --> GuardianController
+LoginController --> InpatientController
+LoginController --> DoctorScheduleController
+LoginController --> DoctorAppointmentController
+
+DoctorController --> DoctorService
+DoctorService --> DoctorRepository
+DoctorRepository --> Doctor
+Doctor --> DB : doctor_details
+
+AdmissionController --> AdmissionService
+AdmissionService --> AdmissionRepository
+AdmissionRepository --> AdmissionDetail
+AdmissionDetail --> DB : admission_details
+
+BedDetailController --> BedDetailsService
+BedDetailsService --> BedDetailsRepository
+BedDetailsRepository --> BedDetail
+BedDetail --> DB : bed_details
+
+GuardianController --> GuardianService
+GuardianService --> GuardianRepositorty
+GuardianRepositorty --> GuardianDetail
+GuardianDetail --> DB : guardian_details
+
+InpatientController --> InpatientService
+InpatientService --> InpatientRepository
+InpatientRepository --> Inpatient
+Inpatient --> DB : inpatient_details
+
+DoctorScheduleController --> DoctorScheduleService
+DoctorScheduleService --> DoctorScheduleDetailRepository
+DoctorScheduleDetailRepository --> DoctorScheduleDetail
+DoctorScheduleDetail --> DB : doctor_schedule_details
+DoctorScheduleDetail --> Doctor : Many-to-One
+
+DoctorAppointmentController --> DoctorAppointmentService
+DoctorAppointmentService --> DoctorAppointmentRepository
+DoctorAppointmentRepository --> DoctorAppointment
+DoctorAppointment --> DB : doctor_appointment
+DoctorAppointment --> Doctor : Many-to-One
+DoctorAppointment --> Inpatient : Many-to-One
+
+DoctorDto --> Doctor : Mapped via Service
+Column --> UI : Used for dynamic rendering
+Field --> UI : Form fields generation
+
+note right of DB
+  Tables:
+  - doctor_details
+  - admission_details
+  - bed_details
+  - guardian_details
+  - inpatient_details
+  - doctor_schedule_details
+  - doctor_appointment
+end note
+
+@enduml

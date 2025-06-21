@@ -1,0 +1,157 @@
+@startuml
+actor Admin
+
+package "Hospital Management System" {
+  [Login] as login
+  [Dashboard / Menu] as menu
+
+  package "Doctor Module" {
+    [Add Doctor] as add_doctor
+    [Edit Doctor] as edit_doctor
+    [Delete Doctor] as delete_doctor
+    [View Doctors] as view_doctors
+    [Search Doctors] as search_doctors
+  }
+
+  package "Doctor Schedule Module" {
+    [Add Schedule] as add_schedule
+    [Edit Schedule] as edit_schedule
+    [Delete Schedule] as delete_schedule
+    [View Schedules] as view_schedules
+    [Search Schedules] as search_schedules
+  }
+
+  package "Patient Module" {
+    [Add Inpatient] as add_inpatient
+    [Edit Inpatient] as edit_inpatient
+    [Delete Inpatient] as delete_inpatient
+    [View Inpatients] as view_inpatients
+    [Add Outpatient] as add_outpatient
+    [Edit Outpatient] as edit_outpatient
+    [Delete Outpatient] as delete_outpatient
+    [View Outpatients] as view_outpatients
+  }
+
+  package "Admission Module" {
+    [Add Admission] as add_admission
+    [Edit Admission] as edit_admission
+    [Delete Admission] as delete_admission
+    [View Admissions] as view_admissions
+    [Search Admissions] as search_admissions
+  }
+
+  package "Guardian Module" {
+    [Add Guardian] as add_guardian
+    [Edit Guardian] as edit_guardian
+    [Delete Guardian] as delete_guardian
+    [View Guardians] as view_guardians
+    [Search Guardians] as search_guardians
+  }
+
+  package "Bed Module" {
+    [Add Bed] as add_bed
+    [Edit Bed] as edit_bed
+    [Delete Bed] as delete_bed
+    [View Beds] as view_beds
+    [Search Beds] as search_beds
+  }
+
+  package "Room Module" {
+    [Add Room] as add_room
+    [Edit Room] as edit_room
+    [Delete Room] as delete_room
+    [View Rooms] as view_rooms
+    [Search Rooms] as search_rooms
+  }
+
+  package "Appointment Module" {
+    [Add Appointment] as add_appointment
+    [Edit Appointment] as edit_appointment
+    [Delete Appointment] as delete_appointment
+    [View Appointments] as view_appointments
+    [Search Appointments] as search_appointments
+  }
+
+  package "Global Search" {
+    [Search Across Modules] as global_search
+  }
+}
+
+Admin --> login : Logs in
+login --> menu : Accesses Dashboard
+
+menu --> view_doctors : Goes to Doctor List
+menu --> view_schedules : Goes to Doctor Schedules
+menu --> view_inpatients : Views Inpatients
+menu --> view_admissions : Views Admissions
+menu --> view_guardians : Views Guardians
+menu --> view_beds : Views Beds
+menu --> view_rooms : Views Rooms
+menu --> view_appointments : Views Appointments
+menu --> global_search : Uses Global Search
+
+Admin --> add_doctor : Adds New Doctor
+Admin --> edit_doctor : Edits Doctor Info
+Admin --> delete_doctor : Deactivates Doctor
+Admin --> view_doctors : Views All Doctors
+Admin --> search_doctors : Searches Doctors by Fields
+
+Admin --> add_schedule : Adds New Schedule
+Admin --> edit_schedule : Modifies Schedule
+Admin --> delete_schedule : Deletes Schedule
+Admin --> view_schedules : Views All Schedules
+Admin --> search_schedules : Searches Schedules
+
+Admin --> add_inpatient : Registers Inpatient
+Admin --> edit_inpatient : Updates Inpatient
+Admin --> delete_inpatient : Deactivates Inpatient
+Admin --> view_inpatients : Views All Inpatients
+
+Admin --> add_outpatient : Registers Outpatient
+Admin --> edit_outpatient : Updates Outpatient
+Admin --> delete_outpatient : Deactivates Outpatient
+Admin --> view_outpatients : Views All Outpatients
+
+Admin --> add_admission : Records Admission
+Admin --> edit_admission : Modifies Admission
+Admin --> delete_admission : Cancels Admission
+Admin --> view_admissions : Views All Admissions
+Admin --> search_admissions : Searches Admissions
+
+Admin --> add_guardian : Adds Guardian
+Admin --> edit_guardian : Updates Guardian
+Admin --> delete_guardian : Removes Guardian
+Admin --> view_guardians : Views All Guardians
+Admin --> search_guardians : Searches Guardians
+
+Admin --> add_bed : Adds New Bed
+Admin --> edit_bed : Modifies Bed Info
+Admin --> delete_bed : Removes Bed
+Admin --> view_beds : Views All Beds
+Admin --> search_beds : Searches Beds
+
+Admin --> add_room : Adds New Room
+Admin --> edit_room : Modifies Room Info
+Admin --> delete_room : Removes Room
+Admin --> view_rooms : Views All Rooms
+Admin --> search_rooms : Searches Rooms
+
+Admin --> add_appointment : Books Appointment
+Admin --> edit_appointment : Modifies Appointment
+Admin --> delete_appointment : Cancels Appointment
+Admin --> view_appointments : Views All Appointments
+Admin --> search_appointments : Searches Appointments
+
+Admin --> global_search : Searches Across:
+global_search --> view_doctors
+global_search --> view_schedules
+global_search --> view_rooms
+global_search --> view_appointments
+
+note right of global_search
+  Can search across: Doctors,
+  Schedules, Rooms, Services,
+  Doctor Schedules, Service Schedules
+end note
+
+@enduml

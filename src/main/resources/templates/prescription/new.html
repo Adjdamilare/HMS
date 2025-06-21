@@ -1,0 +1,63 @@
+<!-- D:\IdealProjects\HMS\src\main\resources\templates\prescription\new.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Prescription</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Add New Prescription</h2>
+
+    <!-- Form to add a new prescription -->
+    <form th:action="@{/prescriptions}" method="post" th:object="${prescription}">
+        <div class="mb-3">
+            <label for="prescriptionId" class="form-label">Prescription ID</label>
+            <input type="text"
+                   id="prescriptionId"
+                   class="form-control"
+                   th:field="*{prescriptionId}"
+                   readonly
+                   aria-describedby="idHelp">
+            <div id="idHelp" class="form-text">Auto-generated ID, cannot be edited.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="medicineServiceId" class="form-label">Medicine/Service ID</label>
+            <input type="text"
+                   id="medicineServiceId"
+                   class="form-control"
+                   th:field="*{medicineServiceId}"
+                   placeholder="Enter medicine/service ID"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="frequency" class="form-label">Frequency</label>
+            <input type="text"
+                   id="frequency"
+                   class="form-control"
+                   th:field="*{frequency}"
+                   placeholder="Enter frequency (e.g., 'twice daily')"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="noOfDays" class="form-label">Number of Days</label>
+            <input type="number"
+                   id="noOfDays"
+                   class="form-control"
+                   th:field="*{noOfDays}"
+                   placeholder="Enter number of days"
+                   required>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Prescription</button>
+        <a th:href="@{/prescriptions}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

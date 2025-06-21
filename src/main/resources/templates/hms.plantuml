@@ -1,0 +1,63 @@
+@startuml
+skinparam linetype ortho
+
+' Controllers
+[LoginController] --> [Menu]
+[Menu] --> [DoctorController]
+[Menu] --> [AdmissionController]
+[Menu] --> [BedDetailController]
+[Menu] --> [GuardianController]
+[Menu] --> [InpatientController]
+[Menu] --> [DoctorScheduleController]
+[Menu] --> [DoctorAppointmentController]
+
+' Doctor Flow
+[DoctorController] --> [DoctorService]
+[DoctorService] --> [DoctorRepository]
+[DoctorRepository] --> [Doctor]
+
+' Admission Flow
+[AdmissionController] --> [AdmissionService]
+[AdmissionService] --> [AdmissionRepository]
+[AdmissionRepository] --> [AdmissionDetail]
+
+' Bed Detail Flow
+[BedDetailController] --> [BedDetailsService]
+[BedDetailsService] --> [BedDetailsRepository]
+[BedDetailsRepository] --> [BedDetail]
+
+' Guardian Flow
+[GuardianController] --> [GuardianService]
+[GuardianService] --> [GuardianRepositorty]
+[GuardianRepositorty] --> [GuardianDetail]
+
+' Inpatient Flow
+[InpatientController] --> [InpatientService]
+[InpatientService] --> [InpatientRepository]
+[InpatientRepository] --> [Inpatient]
+
+' Doctor Schedule Flow
+[DoctorScheduleController] --> [DoctorScheduleService]
+[DoctorScheduleService] --> [DoctorScheduleDetailRepository]
+[DoctorScheduleDetailRepository] --> [DoctorScheduleDetail]
+
+' Doctor Appointment Flow
+[DoctorAppointmentController] --> [DoctorAppointmentService]
+[DoctorAppointmentService] --> [DoctorAppointmentRepository]
+[DoctorAppointmentRepository] --> [DoctorAppointment]
+
+' Shared References
+[DoctorScheduleDetail] --> [Doctor]
+[DoctorAppointment] --> [Doctor]
+[AdmissionDetail] --> [Doctor]
+
+[AdmissionDetail] --> [Inpatient]
+[DoctorAppointment] --> [Inpatient]
+
+[BedDetail] --> [RoomDetail]
+[AdmissionDetail] --> [RoomDetail]
+[DoctorScheduleController] --> [RoomDetail]
+
+[BedDetail] --> [WardDetail]
+
+@enduml

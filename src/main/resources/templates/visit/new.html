@@ -1,0 +1,101 @@
+<!-- D:\IdealProjects\HMS\src\main\resources\templates\visit\new.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Add New Visit</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">Add New Visit</h2>
+
+    <!-- Form to add a new visit -->
+    <form th:action="@{/visits}" method="post" th:object="${visit}">
+        <div class="mb-3">
+            <label for="visitId" class="form-label">Visit ID</label>
+            <input type="text"
+                   id="visitId"
+                   class="form-control"
+                   th:field="*{visitId}"
+                   readonly
+                   aria-describedby="idHelp">
+            <div id="idHelp" class="form-text">Auto-generated ID, cannot be edited.</div>
+        </div>
+
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text"
+                   id="description"
+                   class="form-control"
+                   th:field="*{description}"
+                   placeholder="Enter visit description"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="visitDate" class="form-label">Visit Date</label>
+            <input type="date"
+                   id="visitDate"
+                   class="form-control"
+                   th:field="*{visitDate}"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="visitTime" class="form-label">Visit Time</label>
+            <input type="time"
+                   id="visitTime"
+                   class="form-control"
+                   th:field="*{visitTime}"
+                   required>
+        </div>
+
+        <div class="mb-3">
+            <label for="doctorId" class="form-label">Doctor ID</label>
+            <select id="doctorId" class="form-select" th:field="*{doctorId}">
+                <option value="">-- Select Doctor --</option>
+                <option th:each="doctor : ${doctors}"
+                        th:value="${doctor.doctorId}"
+                        th:text="${doctor.doctorId + ' - ' + doctor.doctorFname + ' ' + doctor.doctorLname}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="patientId" class="form-label">Patient ID</label>
+            <select id="patientId" class="form-select" th:field="*{patientId}">
+                <option value="">-- Select Patient --</option>
+                <option th:each="patient : ${patients}"
+                        th:value="${patient.patientId}"
+                        th:text="${patient.patientId + ' - ' + patient.patientFname + ' ' + patient.patientLname}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="admissionId" class="form-label">Admission ID</label>
+            <select id="admissionId" class="form-select" th:field="*{admissionId}">
+                <option value="">-- Select Admission --</option>
+                <option th:each="admission : ${admissions}"
+                        th:value="${admission.admissionId}"
+                        th:text="${admission.admissionId + ' - ' + admission.patientId}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="prescriptionId" class="form-label">Prescription ID</label>
+            <select id="prescriptionId" class="form-select" th:field="*{prescriptionId}">
+                <option value="">-- Select Prescription --</option>
+                <option th:each="prescription : ${prescriptions}"
+                        th:value="${prescription.prescriptionId}"
+                        th:text="${prescription.prescriptionId}"></option>
+            </select>
+        </div>
+
+        <button type="submit" class="btn btn-success">Save Visit</button>
+        <a th:href="@{/visits}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

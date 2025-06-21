@@ -1,0 +1,784 @@
+@startuml
+
+!theme plain
+top to bottom direction
+skinparam linetype ortho
+
+class AdmissionController {
+  + AdmissionController(AdmissionRepository): 
+  + saveAdmission(AdmissionDetail, RedirectAttributes): String
+  + listAdmissions(Model): String
+  - generateNextAdmissionId(): String
+  + showNewAdmissionForm(Model): String
+}
+class AdmissionDetail {
+  + AdmissionDetail(): 
+  - patientId: String
+  - roomWardId: String
+  - bedId: String
+  - refDoctor: String
+  - admissionId: String
+  - guardianId: String
+  - emergency: String
+  - admissionTime: LocalTime
+  - admissionDate: LocalDate
+   roomWardId: String
+   bedId: String
+   admissionTime: LocalTime
+   emergency: String
+   admissionDate: LocalDate
+   admissionId: String
+   patientId: String
+   guardianId: String
+   refDoctor: String
+}
+interface AdmissionRepository << interface >>
+class BedDetail {
+  + BedDetail(): 
+  - bedDescription: String
+  - status: Byte
+  - bedId: String
+  - roomWard: String
+   bedDescription: String
+   status: Byte
+   roomWard: String
+   bedId: String
+}
+class BedDetailController {
+  + BedDetailController(): 
+  + showNewForm(Model): String
+  - generateNextBedId(): String
+  + listBeds(Model): String
+  + saveBed(BedDetail, String, RedirectAttributes): String
+  + showEditForm(String, Model): String
+}
+interface BedDetailsRepository << interface >> {
+  + findByStatus(Byte): List<BedDetail>
+}
+class Column {
+  + Column(String, String): 
+  + Column(): 
+  - propertyName: String
+  - displayName: String
+   displayName: String
+   propertyName: String
+}
+class Doctor {
+  + Doctor(): 
+  - schedules: List<DoctorScheduleDetail>
+  - doctorFname: String
+  - doctorCcharge: BigDecimal
+  - doctorNid: String
+  - doctorSex: String
+  - doctorHphone: String
+  - doctorId: String
+  - doctorType: String
+  - doctorLname: String
+  - status: Integer
+  - doctorQualification: String
+  - doctorNotes: String
+  - doctorBasicSal: BigDecimal
+  - doctorAddress: String
+  - doctorMphone: String
+  - doctorSpecialization: String
+  - doctorVcharge: BigDecimal
+   doctorType: String
+   doctorQualification: String
+   doctorNotes: String
+   doctorCcharge: BigDecimal
+   doctorHphone: String
+   doctorVcharge: BigDecimal
+   doctorBasicSal: BigDecimal
+   schedules: List<DoctorScheduleDetail>
+   doctorId: String
+   doctorNid: String
+   doctorAddress: String
+   doctorFname: String
+   status: Integer
+   doctorMphone: String
+   doctorSpecialization: String
+   doctorSex: String
+   doctorLname: String
+}
+class DoctorAppointment {
+  + DoctorAppointment(): 
+  - patientId: String
+  - appointmentDate: LocalDate
+  - doctorId: String
+  - appointmentId: String
+  - appointmentTime: LocalTime
+   appointmentDate: LocalDate
+   doctorId: String
+   appointmentId: String
+   patientId: String
+   appointmentTime: LocalTime
+}
+class DoctorAppointmentController {
+  + DoctorAppointmentController(): 
+  + createDoctorAppointment(DoctorAppointment, RedirectAttributes): String
+  - generateNextAppointmentId(): String
+  + listDoctorAppointments(Model): String
+  + showNewAppointmentForm(Model): String
+   doctorScheduleColumns: List<Column>
+}
+interface DoctorAppointmentRepository << interface >>
+class DoctorController {
+  + DoctorController(): 
+  + searchDoctors(String, String, Model): String
+  + saveDoctor(Doctor, String): String
+  + refresh(): String
+  + editDoctor(String, Model): String
+  + back(): String
+  + backNew(Model): String
+  + listDoctors(Model): String
+  + newDoctor(Model): String
+  + deleteDoctor(String): String
+   doctorFields: List<Field>
+   doctorColumns: List<Column>
+}
+class DoctorDto {
+  + DoctorDto(): 
+  - doctorAddress: String
+  - doctorQualification: String
+  - doctorSex: String
+  - doctorCcharge: BigDecimal
+  - doctorBasicSal: BigDecimal
+  - doctorLname: String
+  - doctorId: String
+  - doctorFname: String
+  - doctorVcharge: BigDecimal
+  - doctorType: String
+  - doctorNid: String
+  - doctorSpecialization: String
+  - doctorHphone: String
+  - doctorMphone: String
+  - doctorNotes: String
+   doctorType: String
+   doctorQualification: String
+   doctorNotes: String
+   doctorCcharge: BigDecimal
+   doctorHphone: String
+   doctorVcharge: BigDecimal
+   doctorBasicSal: BigDecimal
+   doctorId: String
+   doctorNid: String
+   doctorAddress: String
+   doctorFname: String
+   doctorMphone: String
+   doctorSpecialization: String
+   doctorSex: String
+   doctorLname: String
+}
+interface DoctorRepository << interface >> {
+  + findByDoctorQualificationContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorSpecializationContainingIgnoreCase(String): List<Doctor>
+  + findAll(): List<Doctor>
+  + findByDoctorTypeContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorLnameContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorId(String): Doctor
+  + findByDoctorNidContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorHphoneContainingIgnoreCase(String): List<Doctor>
+  + softDelete(String): void
+  + findByDoctorSexContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorVchargeGreaterThanEqual(Double): List<Doctor>
+  + findByDoctorIdContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorBasicSalGreaterThanEqual(Double): List<Doctor>
+  + findByDoctorCchargeGreaterThanEqual(Double): List<Doctor>
+  + findByDoctorFnameContainingIgnoreCase(String): List<Doctor>
+  + findByDoctorMphoneContainingIgnoreCase(String): List<Doctor>
+  + findAllDoctorIds(): List<String>
+  + findByDoctorAddressContainingIgnoreCase(String): List<Doctor>
+}
+class DoctorScheduleController {
+  + DoctorScheduleController(): 
+  + back(): String
+  + deleteService(String): String
+  + backNew(Model): String
+  + updateDoctorSchedule(DoctorScheduleDetail, List<String>, RedirectAttributes): String
+  + editDoctorSchedule(String, Model, RedirectAttributes): String
+  + refresh(): String
+  + listDoctorSchedules(Model): String
+  + searchDoctorSchedules(String, String, Model): String
+  + saveDoctorSchedule(DoctorScheduleDetail, List<String>, RedirectAttributes): String
+  + newDoctorSchedule(Model): String
+   doctorScheduleColumns: List<Column>
+   doctorScheduleFields: List<Field>
+}
+class DoctorScheduleDetail {
+  + DoctorScheduleDetail(): 
+  - doctorScheduleId: String
+  - doctorId: String
+  - scheduleNotes: String
+  - doctorAvailDate: String
+  - doctorIn: LocalTime
+  - doctorOut: LocalTime
+  - status: Integer
+  - doctor: Doctor
+  + toString(): String
+   doctorScheduleId: String
+   doctorAvailDate: String
+   doctorIn: LocalTime
+   scheduleNotes: String
+   doctorId: String
+   status: Integer
+   doctor: Doctor
+   doctorOut: LocalTime
+}
+interface DoctorScheduleDetailRepository << interface >> {
+  + findByDoctorAvailDateContainingIgnoreCase(String): List<DoctorScheduleDetail>
+  + findByDoctorScheduleId(String): DoctorScheduleDetail
+  + findByDoctorScheduleIdContainingIgnoreCase(String): List<DoctorScheduleDetail>
+  + findAllActive(): List<DoctorScheduleDetail>
+  + findByScheduleNotesContainingIgnoreCase(String): List<DoctorScheduleDetail>
+  + findAll(): List<DoctorScheduleDetail>
+  + delete(String): void
+  + findByDoctorIdContainingIgnoreCase(String): List<DoctorScheduleDetail>
+}
+class DoctorScheduleService {
+  + DoctorScheduleService(): 
+  + searchDoctorSchedules(String): List<DoctorScheduleDetail>
+  + createDoctorSchedule(DoctorScheduleDetail): void
+  + delete(String): void
+  + getDoctorSchedule(String): DoctorScheduleDetail
+  + generateNextDoctorScheduleId(): String
+  + getDoctorScheduleById(String): DoctorScheduleDetail
+  + updateDoctorSchedule(DoctorScheduleDetail): void
+  + searchDoctorSchedulesByColumn(String, String): List<DoctorScheduleDetail>
+   allDoctorSchedules: List<DoctorScheduleDetail>
+}
+class DoctorService {
+  + DoctorService(): 
+  + delete(String): void
+  + searchDoctors(String): List<Doctor>
+  + searchDoctorsByColumn(String, String): List<Doctor>
+  + saveDoctor(Doctor): void
+  + generateNextDoctorId(): String
+  + getDoctorById(String): Doctor
+  + deleteDoctor(String): void
+  + getDoctor(String): Doctor
+   allDoctorsId: List<String>
+   allDoctors: List<Doctor>
+}
+class Field {
+  + Field(String, String, String, boolean): 
+  - type: String
+  - displayName: String
+  - name: String
+  - required: boolean
+   name: String
+   type: String
+   required: boolean
+   displayName: String
+}
+class GlobalController {
+  + GlobalController(): 
+  + global(): String
+  + search(String): String
+}
+class GuardianController {
+  + GuardianController(GuardianRepositorty): 
+  + showNewGuardianForm(Model): String
+  + saveGuardian(GuardianDetail): String
+  + deleteGuardian(String): String
+  + listGuardians(Model): String
+  - generateNextGuardianId(): String
+}
+class GuardianDetail {
+  + GuardianDetail(): 
+  - guardianLname: String
+  - guardianNic: String
+  - guardianId: String
+  - guardianFname: String
+  - guardianOccupation: String
+  - guardianAddress: String
+  - guardianPhone: Long
+   guardianPhone: Long
+   guardianAddress: String
+   guardianLname: String
+   guardianOccupation: String
+   guardianNic: String
+   guardianId: String
+   guardianFname: String
+}
+interface GuardianRepositorty << interface >>
+class HmsApplication {
+  + HmsApplication(): 
+  + main(String[]): void
+}
+class Inpatient {
+  + Inpatient(): 
+  - patientWeight: BigDecimal
+  - patientSex: String
+  - patientId: String
+  - patientLname: String
+  - patientAddress: String
+  - patientNotes: String
+  - patientHeight: BigDecimal
+  - patientMphone: String
+  - patientFname: String
+  - patientBloodGroup: String
+  - admissionDate: Instant
+  - patientDob: LocalDate
+  - status: Byte
+  - patientNid: String
+  - patientHphone: String
+   patientNid: String
+   patientMphone: String
+   patientLname: String
+   patientFname: String
+   patientDob: LocalDate
+   patientWeight: BigDecimal
+   patientBloodGroup: String
+   patientNotes: String
+   patientId: String
+   patientHphone: String
+   patientHeight: BigDecimal
+   admissionDate: Instant
+   status: Byte
+   patientAddress: String
+   patientSex: String
+}
+class InpatientController {
+  + InpatientController(): 
+  + saveInpatient(Inpatient): String
+  + softDeleteInpatient(String): String
+  + showNewInpatientForm(Model): String
+  + backToMenu(): String
+  - generateNextInpatientId(): String
+  + listInpatients(Model): String
+  + showEditForm(String, Model): String
+}
+interface InpatientRepository << interface >> {
+  + findByStatusOrderByPatientIdAsc(Byte): List<Inpatient>
+  + findByPatientIdAndStatus(String, Byte): Optional<Inpatient>
+}
+class LoginController {
+  + LoginController(): 
+  + logout(HttpSession, HttpServletResponse): String
+  + showLoginPage(): String
+  + goToMenu(HttpSession, String, String, Model): String
+}
+class MedicineCategory {
+  + MedicineCategory(): 
+  - categoryName: String
+  - categoryDesc: String
+  - categoryId: String
+  - medicineDetails: Set<MedicineDetail>
+   categoryId: String
+   categoryDesc: String
+   categoryName: String
+   medicineDetails: Set<MedicineDetail>
+}
+class MedicineCategoryController {
+  + MedicineCategoryController(): 
+  + backToMenu(): String
+  + showEditForm(String, Model): String
+  + saveMedicineCategory(MedicineCategory): String
+  + showNewMedicineCategoryForm(Model): String
+  + deleteMedicineCategory(String): String
+  + listMedicineCategories(Model): String
+  - generateNextMedicineCategoryId(): String
+}
+interface MedicineCategoryRepository << interface >>
+class MedicineDetail {
+  + MedicineDetail(): 
+  - productId: String
+  - medicineCategory: MedicineCategory
+  - unitsInStock: Long
+  - unitPrice: BigDecimal
+  - reorderLevel: Long
+  - productName: String
+   productId: String
+   unitsInStock: Long
+   reorderLevel: Long
+   productName: String
+   unitPrice: BigDecimal
+   medicineCategory: MedicineCategory
+}
+class MedicineDetailController {
+  + MedicineDetailController(): 
+  + showNewMedicineDetailForm(Model): String
+  - generateNextMedicineId(): String
+  + listMedicineDetails(Model): String
+  + saveMedicineDetail(MedicineDetail, String): String
+  + backToMenu(): String
+}
+interface MedicineDetailRepository << interface >>
+class Outpatient {
+  + Outpatient(): 
+  - patientId: String
+  - lastName: String
+  - status: String
+  - telephone: String
+  - active: Byte
+  - gender: String
+  - address: String
+  - firstName: String
+  - notes: String
+   notes: String
+   lastName: String
+   gender: String
+   active: Byte
+   status: String
+   firstName: String
+   address: String
+   patientId: String
+   telephone: String
+}
+class OutpatientController {
+  + OutpatientController(): 
+  + generateNextOutPatientId(): String
+  + listOutpatients(Model): String
+  + showEditForm(String, Model): String
+  + backToMenu(): String
+  + saveOutpatient(Outpatient): String
+  + showNewOutpatientForm(Model): String
+  + softDeleteOutpatient(String): String
+}
+interface OutpatientRepository << interface >> {
+  + findByPatientIdAndActive(String, Byte): Optional<Outpatient>
+  + findByActiveOrderByPatientIdAsc(Byte): List<Outpatient>
+}
+class RoomDetail {
+  + RoomDetail(): 
+  - roomDescription: String
+  - roomType: String
+  - roomTypeEntity: RoomType
+  - roomId: String
+  - status: Byte
+   roomId: String
+   status: Byte
+   roomDescription: String
+   roomTypeEntity: RoomType
+   roomType: String
+}
+class RoomDetailsController {
+  + RoomDetailsController(): 
+  + refresh(): String
+  + newRoom(Model): String
+  + back(): String
+  + saveRoomDetails(RoomDetail): String
+  + deleteRoomDetails(String): String
+  + backNew(Model): String
+  + listRoomDetails(Model): String
+  + editRoomDetails(String, Model): String
+  + updateRoomDetails(String, String, String, RedirectAttributes): String
+  + searchRoomDetails(String, String, Model): String
+   roomDetailsFields: List<Field>
+   roomDetailsColumns: List<Column>
+}
+interface RoomDetailsRepository << interface >> {
+  + findByRoomTypeContainingIgnoreCase(String): List<RoomDetail>
+  + findByRoomId(String): RoomDetail
+  + findByRoomIdContainingIgnoreCase(String): List<RoomDetail>
+  + findByRoomDescriptionContainingIgnoreCase(String): List<RoomDetail>
+  + findAllRoomDetails(): List<RoomDetail>
+  + deleteByRoomId(String): void
+}
+class RoomService {
+  + RoomService(): 
+  + deleteRoomDetail(String): void
+  + searchRoomDetailByColumn(String, String): List<RoomDetail>
+  + searchRoomTypeByColumn(String, String): List<RoomType>
+  + deleteRoomType(String): void
+  + saveRoomType(RoomType): void
+  + saveRoomDetail(RoomDetail): void
+  + generateNextRoomId(): String
+  + getRoomType(String): RoomType
+  + getRoomDetailById(String): RoomDetail
+   roomTypes: List<RoomType>
+   roomDetails: List<RoomDetail>
+}
+class RoomType {
+  + RoomType(): 
+  - notes: String
+  - roomRates: BigDecimal
+  - status: Byte
+  - roomType: String
+  - roomDetails: List<RoomDetail>
+   notes: String
+   status: Byte
+   roomDetails: List<RoomDetail>
+   roomRates: BigDecimal
+   roomType: String
+}
+class RoomTypeController {
+  + RoomTypeController(): 
+  + deleteRoomDetails(String): String
+  + newRoomTypeSchedule(Model): String
+  + saveRoomTypes(RoomType): String
+  + updateRoomType(RoomType, RedirectAttributes): String
+  + listRoomTypes(Model): String
+  + editRoomType(String, Model, RedirectAttributes): String
+  + back(): String
+  + searchRoomTypes(String, String, Model): String
+  + refresh(): String
+   roomTypeColumns: List<Column>
+   roomTypeFields: List<Field>
+}
+interface RoomTypeRepository << interface >> {
+  + findByRoomType(String): RoomType
+  + findByNotesContainingIgnoreCase(String): List<RoomType>
+  + findByRoomTypeContainingIgnoreCase(String): List<RoomType>
+  + findAllRoomTypes(): List<RoomType>
+  + findByRoomRates(BigDecimal): List<RoomType>
+  + deleteByRoomType(String): void
+}
+class ServiceAppointment {
+  + ServiceAppointment(): 
+  - appointmentId: String
+  - appointmentTime: LocalTime
+  - hospitalServiceId: String
+  - appointmentDate: LocalDate
+  - patientId: String
+   appointmentDate: LocalDate
+   appointmentId: String
+   hospitalServiceId: String
+   patientId: String
+   appointmentTime: LocalTime
+}
+class ServiceAppointmentController {
+  + ServiceAppointmentController(): 
+  + createDoctorAppointment(ServiceAppointment, RedirectAttributes): String
+  + listServiceAppointments(Model): String
+  + showNewAppointmentForm(Model): String
+  - generateNextAppointmentId(): String
+  + deleteAppointment(String, Model, RedirectAttributes): String
+   serviceScheduleColumns: List<Column>
+}
+interface ServiceAppointmentRepository << interface >>
+class ServiceController {
+  + ServiceController(): 
+  + newService(Model): String
+  + back(): String
+  + editService(String, Model): String
+  + searchServices(String, String, Model): String
+  + backNew(Model): String
+  + listServices(Model): String
+  + deleteService(String): String
+  + refresh(): String
+  + saveService(Services, String): String
+   serviceColumns: List<Column>
+   serviceFields: List<Field>
+}
+interface ServiceRepository << interface >> {
+  + softDelete(String): void
+  + findAll(): List<Services>
+  + findByChannelServiceIdContainingIgnoreCase(String): List<Services>
+  + findByServiceNotesContainingIgnoreCase(String): List<Services>
+  + findByDurationOfServiceGreaterThanEqual(Double): List<Services>
+  + findByChannelServiceId(String): Services
+  + findByChargeForServiceGreaterThanEqual(Double): List<Services>
+  + findByChannelServiceContainingIgnoreCase(String): List<Services>
+  + findByChannelServiceIdContainingIgnoreCaseOrChannelServiceContainingIgnoreCaseOrServiceNotesContainingIgnoreCase(String, String, String): List<Services>
+}
+class ServiceScheduleController {
+  + ServiceScheduleController(): 
+  + newServiceSchedule(Model): String
+  + updateServiceSchedule(ServiceScheduleDetail, List<String>, RedirectAttributes): String
+  + deleteService(String): String
+  + searchDoctorSchedules(String, String, Model): String
+  + listServiceSchedules(Model): String
+  + refresh(): String
+  + backNew(Model): String
+  + back(): String
+  + saveServiceSchedule(ServiceScheduleDetail, List<String>, RedirectAttributes): String
+  + editServiceSchedule(String, Model, RedirectAttributes): String
+   serviceScheduleColumns: List<Column>
+   serviceScheduleFields: List<Field>
+}
+class ServiceScheduleDetail {
+  + ServiceScheduleDetail(): 
+  - scheduleNotes: String
+  - status: Integer
+  - serviceId: String
+  - service: Services
+  - serviceScheduleId: String
+  - serviceEnds: LocalTime
+  - serviceAvailDate: String
+  - serviceStarts: LocalTime
+   serviceAvailDate: String
+   scheduleNotes: String
+   serviceStarts: LocalTime
+   status: Integer
+   serviceScheduleId: String
+   serviceEnds: LocalTime
+   service: Services
+   serviceId: String
+}
+interface ServiceScheduleDetailRepository << interface >> {
+  + findByServiceAvailDateContainingIgnoreCase(String): List<ServiceScheduleDetail>
+  + delete(String): void
+  + findByServiceScheduleIdContainingIgnoreCase(String): List<ServiceScheduleDetail>
+  + findAllActive(): List<ServiceScheduleDetail>
+  + findByServiceIdContainingIgnoreCase(String): List<ServiceScheduleDetail>
+  + findAll(): List<ServiceScheduleDetail>
+  + findByServiceScheduleId(String): ServiceScheduleDetail
+  + findByScheduleNotesContainingIgnoreCase(String): List<ServiceScheduleDetail>
+}
+class ServiceScheduleService {
+  + ServiceScheduleService(): 
+  + generateNextServiceScheduleId(): String
+  + delete(String): void
+  + getServiceSchedule(String): ServiceScheduleDetail
+  + getServiceScheduleById(String): Optional<ServiceScheduleDetail>
+  + updateServiceSchedule(ServiceScheduleDetail): void
+  + searchServiceSchedules(String): List<ServiceScheduleDetail>
+  + searchServiceSchedulesByColumn(String, String): List<ServiceScheduleDetail>
+  + createServiceSchedule(ServiceScheduleDetail): void
+   allServiceSchedules: List<ServiceScheduleDetail>
+}
+class Services {
+  + Services(): 
+  - chargeForService: BigDecimal
+  - serviceNotes: String
+  - channelServiceId: String
+  - durationOfService: BigDecimal
+  - channelService: String
+  - status: Integer
+  - schedules: List<ServiceScheduleDetail>
+   chargeForService: BigDecimal
+   serviceNotes: String
+   schedules: List<ServiceScheduleDetail>
+   status: Integer
+   channelService: String
+   durationOfService: BigDecimal
+   channelServiceId: String
+   serviceId: String
+}
+class ServicesService {
+  + ServicesService(): 
+  + searchServices(String): List<Services>
+  + delete(String): void
+  + saveService(Services): Services
+  + deleteService(String): void
+  + searchServicesByColumn(String, String): List<Services>
+  + generateNextServiceId(): String
+  + getServiceById(String): Services
+   allServices: List<Services>
+}
+class WardController {
+  + WardController(): 
+  + newWardDetail(Model): String
+  + editWardDetail(String, Model): String
+  + saveWardDetails(WardDetail): String
+  + deleteWardDetails(String): String
+  + listWardDetails(Model): String
+  + refresh(): String
+  + searchWardDetails(String, String, Model): String
+  + back(): String
+  + backNew(Model): String
+   wardDetailColumns: List<Column>
+   wardDetailFields: List<Field>
+}
+class WardDetail {
+  + WardDetail(): 
+  - wardId: String
+  - wardName: String
+  - wardDesc: String
+  - wardRate: BigDecimal
+  - status: Byte
+   wardRate: BigDecimal
+   wardId: String
+   wardDesc: String
+   status: Byte
+   wardName: String
+}
+interface WardDetailRepository << interface >> {
+  + findByWardIdContainingIgnoreCase(String): List<WardDetail>
+  + deleteByWardId(String): void
+  + findByWardNameContainingIgnoreCase(String): List<WardDetail>
+  + findByWardRateGreaterThanEqual(BigDecimal): List<WardDetail>
+  + findByWardId(String): WardDetail
+  + findAllWardDetails(): List<WardDetail>
+  + findByWardDescContainingIgnoreCase(String): List<WardDetail>
+}
+class WardDetailService {
+  + WardDetailService(): 
+  + searchWardDetailByColumn(String, String): List<WardDetail>
+  + getWardDetailById(String): WardDetail
+  + generateNextWardId(): String
+  + saveWardDetail(WardDetail): void
+  + deleteWardDetail(String): void
+   warmDetails: List<WardDetail>
+}
+
+AdmissionController              -[#595959,dashed]->  AdmissionDetail                 : "«create»"
+AdmissionController             "1" *-[#595959,plain]-> "admissionRepository\n1" AdmissionRepository             
+AdmissionController             "1" *-[#595959,plain]-> "bedDetailsRepository\n1" BedDetailsRepository            
+AdmissionController             "1" *-[#595959,plain]-> "doctorRepository\n1" DoctorRepository                
+AdmissionController             "1" *-[#595959,plain]-> "guardianRepository\n1" GuardianRepositorty             
+AdmissionController             "1" *-[#595959,plain]-> "inpatientRepository\n1" InpatientRepository             
+AdmissionController             "1" *-[#595959,plain]-> "roomDetailsRepository\n1" RoomDetailsRepository           
+BedDetailController              -[#595959,dashed]->  BedDetail                       : "«create»"
+BedDetailController             "1" *-[#595959,plain]-> "bedDetailsRepository\n1" BedDetailsRepository            
+BedDetailController             "1" *-[#595959,plain]-> "roomService\n1" RoomService                     
+BedDetailController             "1" *-[#595959,plain]-> "wardDetailService\n1" WardDetailService               
+Doctor                          "1" *-[#595959,plain]-> "schedules\n*" DoctorScheduleDetail            
+DoctorAppointmentController      -[#595959,dashed]->  Column                          : "«create»"
+DoctorAppointmentController      -[#595959,dashed]->  DoctorAppointment               : "«create»"
+DoctorAppointmentController     "1" *-[#595959,plain]-> "doctorAppointmentRepository\n1" DoctorAppointmentRepository     
+DoctorAppointmentController     "1" *-[#595959,plain]-> "doctorRepository\n1" DoctorRepository                
+DoctorAppointmentController     "1" *-[#595959,plain]-> "doctorScheduleService\n1" DoctorScheduleService           
+DoctorAppointmentController     "1" *-[#595959,plain]-> "outpatientRepository\n1" OutpatientRepository            
+DoctorController                 -[#595959,dashed]->  Column                          : "«create»"
+DoctorController                "1" *-[#595959,plain]-> "doctorService\n1" DoctorService                   
+DoctorController                 -[#595959,dashed]->  Field                           : "«create»"
+DoctorScheduleController         -[#595959,dashed]->  Column                          : "«create»"
+DoctorScheduleController        "1" *-[#595959,plain]-> "doctorRepository\n1" DoctorRepository                
+DoctorScheduleController         -[#595959,dashed]->  DoctorScheduleDetail            : "«create»"
+DoctorScheduleController        "1" *-[#595959,plain]-> "doctorScheduleService\n1" DoctorScheduleService           
+DoctorScheduleController        "1" *-[#595959,plain]-> "doctorService\n1" DoctorService                   
+DoctorScheduleController         -[#595959,dashed]->  Field                           : "«create»"
+DoctorScheduleDetail            "1" *-[#595959,plain]-> "doctor\n1" Doctor                          
+DoctorScheduleService           "1" *-[#595959,plain]-> "doctorScheduleDetailRepository\n1" DoctorScheduleDetailRepository  
+DoctorService                   "1" *-[#595959,plain]-> "doctorRepository\n1" DoctorRepository                
+GuardianController               -[#595959,dashed]->  GuardianDetail                  : "«create»"
+GuardianController              "1" *-[#595959,plain]-> "guardianRepository\n1" GuardianRepositorty             
+InpatientController              -[#595959,dashed]->  Inpatient                       : "«create»"
+InpatientController             "1" *-[#595959,plain]-> "inpatientRepository\n1" InpatientRepository             
+MedicineCategory                "1" *-[#595959,plain]-> "medicineDetails\n*" MedicineDetail                  
+MedicineCategoryController       -[#595959,dashed]->  MedicineCategory                : "«create»"
+MedicineCategoryController      "1" *-[#595959,plain]-> "medicineCategoryRepository\n1" MedicineCategoryRepository      
+MedicineDetail                  "1" *-[#595959,plain]-> "medicineCategory\n1" MedicineCategory                
+MedicineDetailController        "1" *-[#595959,plain]-> "medicineCategoryRepository\n1" MedicineCategoryRepository      
+MedicineDetailController         -[#595959,dashed]->  MedicineDetail                  : "«create»"
+MedicineDetailController        "1" *-[#595959,plain]-> "medicineDetailRepository\n1" MedicineDetailRepository        
+OutpatientController             -[#595959,dashed]->  Outpatient                      : "«create»"
+OutpatientController            "1" *-[#595959,plain]-> "outpatientRepository\n1" OutpatientRepository            
+RoomDetail                      "1" *-[#595959,plain]-> "roomTypeEntity\n1" RoomType                        
+RoomDetailsController            -[#595959,dashed]->  Column                          : "«create»"
+RoomDetailsController            -[#595959,dashed]->  Field                           : "«create»"
+RoomDetailsController           "1" *-[#595959,plain]-> "roomService\n1" RoomService                     
+RoomService                     "1" *-[#595959,plain]-> "roomDetailsRepository\n1" RoomDetailsRepository           
+RoomService                     "1" *-[#595959,plain]-> "roomTypeRepository\n1" RoomTypeRepository              
+RoomType                        "1" *-[#595959,plain]-> "roomDetails\n*" RoomDetail                      
+RoomTypeController               -[#595959,dashed]->  Column                          : "«create»"
+RoomTypeController               -[#595959,dashed]->  Field                           : "«create»"
+RoomTypeController              "1" *-[#595959,plain]-> "roomService\n1" RoomService                     
+RoomTypeController               -[#595959,dashed]->  RoomType                        : "«create»"
+ServiceAppointmentController     -[#595959,dashed]->  Column                          : "«create»"
+ServiceAppointmentController    "1" *-[#595959,plain]-> "doctorRepository\n1" DoctorRepository                
+ServiceAppointmentController    "1" *-[#595959,plain]-> "outpatientRepository\n1" OutpatientRepository            
+ServiceAppointmentController     -[#595959,dashed]->  ServiceAppointment              : "«create»"
+ServiceAppointmentController    "1" *-[#595959,plain]-> "serviceAppointmentRepository\n1" ServiceAppointmentRepository    
+ServiceAppointmentController    "1" *-[#595959,plain]-> "serviceRepository\n1" ServiceRepository               
+ServiceAppointmentController    "1" *-[#595959,plain]-> "serviceScheduleService\n1" ServiceScheduleService          
+ServiceController                -[#595959,dashed]->  Column                          : "«create»"
+ServiceController                -[#595959,dashed]->  Field                           : "«create»"
+ServiceController               "1" *-[#595959,plain]-> "servicesService\n1" ServicesService                 
+ServiceScheduleController        -[#595959,dashed]->  Column                          : "«create»"
+ServiceScheduleController        -[#595959,dashed]->  Field                           : "«create»"
+ServiceScheduleController        -[#595959,dashed]->  ServiceScheduleDetail           : "«create»"
+ServiceScheduleController       "1" *-[#595959,plain]-> "serviceScheduleService\n1" ServiceScheduleService          
+ServiceScheduleController       "1" *-[#595959,plain]-> "servicesService\n1" ServicesService                 
+ServiceScheduleDetail           "1" *-[#595959,plain]-> "service\n1" Services                        
+ServiceScheduleService          "1" *-[#595959,plain]-> "serviceScheduleDetailRepository\n1" ServiceScheduleDetailRepository 
+Services                        "1" *-[#595959,plain]-> "schedules\n*" ServiceScheduleDetail           
+ServicesService                 "1" *-[#595959,plain]-> "serviceRepository\n1" ServiceRepository               
+WardController                   -[#595959,dashed]->  Column                          : "«create»"
+WardController                   -[#595959,dashed]->  Field                           : "«create»"
+WardController                   -[#595959,dashed]->  WardDetail                      : "«create»"
+WardController                  "1" *-[#595959,plain]-> "wardDetailService\n1" WardDetailService               
+WardDetailService               "1" *-[#595959,plain]-> "wardDetailRepository\n1" WardDetailRepository            
+@enduml

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>New Admission</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container mt-5">
+    <h2 class="mb-4">New Admission</h2>
+
+    <form th:action="@{/admissions/save}" th:object="${admissionDetail}" method="post">
+        <input type="text" class="form-control" th:field="*{admissionId}" hidden="hidden" />
+        <div class="mb-3">
+            <label for="admissionId" class="form-label">Admission ID</label>
+            <input type="text" id="admissionId" class="form-control" th:field="*{admissionId}" readonly />
+        </div>
+
+        <div class="mb-3">
+            <label for="patientId" class="form-label">Patient</label>
+            <select id="patientId" class="form-select" th:field="*{patientId}" required>
+                <option value="">Select Patient</option>
+                <option th:each="inpatient : ${patients}" th:value="${inpatient.patientId}"
+                        th:text="${inpatient.patientFname + ' ' + inpatient.patientLname}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="guardianId" class="form-label">Guardian</label>
+            <select id="guardianId" class="form-select" th:field="*{guardianId}" required>
+                <option value="">Select Guardian</option>
+                <option th:each="guardian : ${guardians}" th:value="${guardian.guardianId}"
+                        th:text="${guardian.guardianFname + ' ' + guardian.guardianLname}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="roomWardId" class="form-label">Room/Ward ID</label>
+            <select id="roomWardId" class="form-select" th:field="*{roomWardId}" required>
+                <option value="">Select Room/Ward</option>
+                <option th:each="room : ${rooms}" th:value="${room.roomId}"
+                        th:text="${room.roomId}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="bedId" class="form-label">Bed ID</label>
+            <select id="bedId" class="form-select" th:field="*{bedId}" required>
+                <option value="">Select Bed</option>
+                <option th:each="bed : ${beds}" th:value="${bed.bedId}"
+                        th:text="${bed.bedId}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="refDoctor" class="form-label">Referring Doctor</label>
+            <select id="refDoctor" class="form-select" th:field="*{refDoctor}" required>
+                <option value="">Select Doctor</option>
+                <option th:each="doctor : ${doctors}" th:value="${doctor.doctorId}"
+                        th:text="${doctor.doctorFname + ' ' + doctor.doctorLname}"></option>
+            </select>
+        </div>
+
+        <div class="mb-3">
+            <label for="admissionDate" class="form-label">Admission Date</label>
+            <input type="date" id="admissionDate" class="form-control" th:field="*{admissionDate}" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="admissionTime" class="form-label">Admission Time</label>
+            <input type="time" id="admissionTime" class="form-control" th:field="*{admissionTime}" required />
+        </div>
+
+        <div class="mb-3">
+            <label for="emergency" class="form-label">Emergency</label>
+            <textarea id="emergency" class="form-control" th:field="*{emergency}" rows="3"></textarea>
+        </div>
+
+        <button type="submit" class="btn btn-primary">Save Admission</button>
+        <a th:href="@{/admissions}" class="btn btn-secondary">Cancel</a>
+    </form>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
